@@ -43,6 +43,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(Contract.ReportEntry.COLUMN_NAME_OPRINDELSE, reportWrapper.getOprindelse());
         values.put(Contract.ReportEntry.COLUMN_NAME_NEAR_ADDRESS, reportWrapper.getNear_address());
         values.put(Contract.ReportEntry.COLUMN_NAME_USERTYPE, reportWrapper.getUsertype());
+        values.put(Contract.ReportEntry.COLUMN_NAME_POINTS, reportWrapper.getPoints());
 
         return db.insert(Contract.ReportEntry.TABLE_NAME, null, values);
     }

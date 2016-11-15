@@ -17,6 +17,7 @@ public class ReportWrapper {
     private String oprindelse;
     private String near_address;
     private String usertype;
+    private Integer points;
 
     /*Constructor wihtout image*/
     public ReportWrapper(String emne, String element, String description, Long longitude, Long latitude, String timestamp, String oprindelse, String near_address, String usertype) {
@@ -29,6 +30,7 @@ public class ReportWrapper {
         this.oprindelse = oprindelse;
         this.near_address = near_address;
         this.usertype = usertype;
+        points = 0;
     }
     /*Constructor with image */
     public ReportWrapper(String emne, String element, String description, Long longitude, Long latitude, String timestamp, String oprindelse, String near_address, String usertype, Bitmap image) {
@@ -42,6 +44,7 @@ public class ReportWrapper {
         this.oprindelse = oprindelse;
         this.near_address = near_address;
         this.usertype = usertype;
+        points = 0;
     }
 
     public String getEmne() {
@@ -122,5 +125,13 @@ public class ReportWrapper {
 
     public void setUsertype(String usertype) {
         this.usertype = usertype;
+    }
+
+    public Integer getPoints() {
+        return points;
+    }
+
+    public void setPoints(Integer points) {
+        this.points = points;
     }
 }
