@@ -5,6 +5,8 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+
+import Database.DatabaseHelper;
 import Fragments.FragmentChangeListener;
 import Fragments.MenuFragment;
 
@@ -18,14 +20,15 @@ public class MainActivity extends AppCompatActivity implements FragmentChangeLis
         android.app.FragmentManager fragmentManager = getFragmentManager();
         android.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         MenuFragment menuFragment = new MenuFragment();
-        fragmentTransaction.add(R.id.mContainerId, menuFragment, "HELLO");
+        fragmentTransaction.add(R.id.mContainerId, menuFragment, menuFragment.toString());
         fragmentTransaction.commit();
+        DatabaseHelper dbHelper = new DatabaseHelper(this);
+        dbHelper.getWritableDatabase();
     }
 
 
     @Override
     public void replaceFragment(Fragment fragment) {
-
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.mContainerId, fragment, fragment.toString());
