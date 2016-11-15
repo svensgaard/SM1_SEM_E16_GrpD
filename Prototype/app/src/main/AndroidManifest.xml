@@ -18,10 +18,35 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".EncounteredReportsActivity"
             android:label="@string/title_activity_encountered_reports"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <!--
+     ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
+        -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            />
+
+        <uses-permission android:name="android.permission.CAMERA" />
+
+        <uses-feature
+            android:name="android.hardware.camera"
+            android:required="false" />
+
+        <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+        <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+        ...
+        <!-- Needed only if your app targets Android 5.0 (API level 21) or higher. -->
+        <uses-feature android:name="android.hardware.location.gps" />
+
+        <activity android:name=".CameraActivity">
+
+
+        </activity>
     </application>
 
 </manifest>
