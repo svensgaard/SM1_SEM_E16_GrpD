@@ -29,14 +29,14 @@ public final class Contract {
                     ReportEntry.COLUMN_NAME_NEAR_ADDRESS + TEXT_TYPE + COMMA_SEP +
                     ReportEntry.COLUMN_NAME_USERTYPE + TEXT_TYPE +
                     ReportEntry.COLUMN_NAME_POINTS + INTEGER_TYPE +
-                    " )" +
+                    " );" +
 
                     "CREATE TABLE " + CommentEntry.TABLE_NAME + " ("+
                     CommentEntry._ID + "INTEGER PRIMARY KEY, " +
                     CommentEntry.COLUMN_NAME_IMAGE + BLOB_TYPE + COMMA_SEP +
                     CommentEntry.COLUMN_NAME_TEXT + TEXT_TYPE + COMMA_SEP +
                     CommentEntry.COLUMN_NAME_points + INTEGER_TYPE + COMMA_SEP +
-                    " )"
+                    " );"
             ;
 
     /* Inner class that defines the table contents */

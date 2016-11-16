@@ -145,4 +145,8 @@ public class ReportWrapper {
     public void setPoints(Integer points) {
         this.points = points;
     }
+
+    public static ReportWrapper getDummyReport() {
+        return new ReportWrapper(1, "Emne", "Element", "Description", new Long(34), new Long(45), "2010-05-28T15:36:56.200", "Oprindelse", "Campusvej 55 5230 Odense M", "Bruger", 10);
+    }
 }

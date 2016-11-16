@@ -14,11 +14,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import Fragments.ReportFragment;
+import Wrappers.ReportWrapper;
 
 public class EncounteredReportsActivity extends FragmentActivity {
 
     private ViewPager viewPager;
     private PagerAdapter pagerAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +43,7 @@ public class EncounteredReportsActivity extends FragmentActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return new ReportFragment();
+            return ReportFragment.newInstance(ReportWrapper.getDummyReport());
         }
 
         @Override

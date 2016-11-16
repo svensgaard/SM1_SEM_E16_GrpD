@@ -27,6 +27,7 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
 import Services.GeofenceService;
+import grpd.sm1sem.prototype.EncounteredReportsActivity;
 import grpd.sm1sem.prototype.R;
 
 
@@ -76,6 +77,9 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
             case R.id.CreateReportBtn:
                 showOtherFragment();
                 break;
+            case R.id.encReportsBtn:
+                Intent startEncounteredActivityIntent = new Intent(getActivity(), EncounteredReportsActivity.class);
+                startActivity(startEncounteredActivityIntent);
         }
     }
 }

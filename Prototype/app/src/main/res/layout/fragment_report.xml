@@ -15,6 +15,28 @@
             android:layout_height="450dp"
             android:id="@+id/imageView"
              />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Emne"
+            android:id="@+id/EmneTextView" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Element"
+            android:id="@+id/elementTextView" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Description"
+            android:id="@+id/descriptionTextView" />
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">

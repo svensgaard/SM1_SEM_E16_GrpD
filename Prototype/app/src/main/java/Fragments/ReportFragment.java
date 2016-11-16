@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import Database.Contract;
 import Utitlities.ImageUtils;
@@ -37,7 +38,13 @@ public class ReportFragment extends Fragment {
         args.putString("EMNE", reportWrapper.getEmne());
         args.putString("ELEMENT", reportWrapper.getElement());
         args.putString("DESCRIPTION", reportWrapper.getDescription());
-        args.putByteArray("IMAGE", ImageUtils.getBitmapAsByteArray(reportWrapper.getImage()));
+
+        if(reportWrapper.getImage() != null) {
+            args.putBoolean("ISIMAGE", true);
+            args.putByteArray("IMAGE", ImageUtils.getBitmapAsByteArray(reportWrapper.getImage()));
+        } else {
+            args.putBoolean("ISIMAGE", false);
+        }
 
         fragment.setArguments(args);
 
@@ -51,14 +58,25 @@ public class ReportFragment extends Fragment {
         reportEmne = getArguments().getString("EMNE");
         reportElement = getArguments().getString("ELEMENT");
         reportDescription = getArguments().getString("DESCRIPTION");
-        reportImage = ImageUtils.getByteArrayAsBitmap(getArguments().getByteArray("IMAGE"));
+        if(getArguments().getBoolean("ISIMAGE")) {
+            reportImage = ImageUtils.getByteArrayAsBitmap(getArguments().getByteArray("IMAGE"));
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        //Find the views
         View mainView = inflater.inflate(R.layout.fragment_report, container, false);
+        TextView emneTextView = (TextView) mainView.findViewById(R.id.EmneTextView);
+        TextView elementTextView = (TextView) mainView.findViewById(R.id.elementTextView);
+        TextView descriptionTextView = (TextView) mainView.findViewById(R.id.descriptionTextView);
+
+        //Fill the views
+        emneTextView.setText(reportEmne);
+        elementTextView.setText(reportElement);
+        descriptionTextView.setText(reportDescription);
+
         // Inflate the layout for this fragment
         return mainView;
     }
