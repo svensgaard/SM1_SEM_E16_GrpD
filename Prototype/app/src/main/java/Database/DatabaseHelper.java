@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 
 import java.io.ByteArrayOutputStream;
 
+import Utitlities.ImageUtils;
 import Wrappers.ReportWrapper;
 
 /**
@@ -36,7 +37,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(Contract.ReportEntry.COLUMN_NAME_EMNE, reportWrapper.getEmne());
         values.put(Contract.ReportEntry.COLUMN_NAME_ELEMENT, reportWrapper.getElement());
         values.put(Contract.ReportEntry.COLUMN_NAME_DESCRIPTION, reportWrapper.getDescription());
-        values.put(Contract.ReportEntry.COLUMN_NAME_IMAGE, getBitmapAsByteArray(reportWrapper.getImage()));
+        values.put(Contract.ReportEntry.COLUMN_NAME_IMAGE, ImageUtils.getBitmapAsByteArray(reportWrapper.getImage()));
         values.put(Contract.ReportEntry.COLUMN_NAME_LONGITUDE, reportWrapper.getLongitude());
         values.put(Contract.ReportEntry.COLUMN_NAME_LATITUDE, reportWrapper.getLatitude());
         values.put(Contract.ReportEntry.COLUMN_NAME_TIMESTAMP, reportWrapper.getTimestamp());
@@ -47,12 +48,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return db.insert(Contract.ReportEntry.TABLE_NAME, null, values);
     }
-    //Method used to make the bitmap into a byte array.
-    public static byte[] getBitmapAsByteArray(Bitmap bitmap) {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 0, outputStream);
-        return outputStream.toByteArray();
-    }
+
     /* This method will update the database */
     private void updateDatabase(SQLiteDatabase db, int oldVersion, int newVersion) {
         if(oldVersion < 1) {
