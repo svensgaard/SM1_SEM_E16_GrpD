@@ -39,7 +39,6 @@ public class GeofenceService extends IntentService {
 
             if (transition == Geofence.GEOFENCE_TRANSITION_ENTER){
                 //LOGIC FOR WHEN USER ENTERS GEOFENCE HERE
-                //When you open the notification it should go to the EncounteredReportsActivity
                 Log.d(TAG, "Entering Geofence - " + requestId);
 
                 NotifyUser(requestId);
