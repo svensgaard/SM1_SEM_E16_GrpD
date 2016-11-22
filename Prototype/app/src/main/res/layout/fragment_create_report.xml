@@ -1,19 +1,81 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="Fragments.CreateReportFragment">
 
     <!-- TODO: Update blank fragment layout -->
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Create a report here!" />
-    <Button
-        android:text="Button"
+        android:text="Create a report here!"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/btn"
-        android:layout_weight="1" />
+        android:text="Topic"
+        android:ems="10"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="38dp"
+        android:id="@+id/textTopic"
+        android:inputType="text" />
 
-</FrameLayout>
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:text="Description"
+        android:ems="10"
+        android:layout_below="@+id/textTopic"
+        android:layout_alignStart="@+id/textTopic"
+        android:layout_marginTop="19dp"
+        android:id="@+id/textDesc"
+        android:layout_alignEnd="@+id/textTopic" />
+
+    <ImageView
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        app:srcCompat="@android:drawable/ic_menu_camera"
+        android:id="@+id/imageView"
+        android:adjustViewBounds="true"
+        android:minHeight="200dp"
+        android:minWidth="260dp"
+        android:layout_below="@+id/btn"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:text="Submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn2"
+        android:layout_below="@+id/imageView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="22dp" />
+
+    <Button
+        android:text="Take Picture"
+        android:layout_width="150dp"
+        android:layout_height="71dp"
+        android:id="@+id/btn"
+        android:layout_weight="1"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/textDesc"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="36dp" />
+
+    <Button
+        android:text="Upload Picture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn3"
+        android:layout_marginStart="29dp"
+        android:layout_alignTop="@+id/btn"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/imageView" />
+
+</RelativeLayout>

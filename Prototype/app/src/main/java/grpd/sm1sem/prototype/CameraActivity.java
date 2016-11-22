@@ -20,7 +20,7 @@ public class CameraActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
-        this.imageView = (ImageView)this.findViewById(R.id.imageView1);
+        this.imageView = (ImageView)this.findViewById(R.id.imageView);
         Button photoButton = (Button) this.findViewById(R.id.button1);
         photoButton.setOnClickListener(new View.OnClickListener() {
 

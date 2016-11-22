@@ -1,21 +1,43 @@
 package Fragments;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.ImageView;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+
+import Database.DatabaseHelper;
+import Wrappers.ReportWrapper;
 import grpd.sm1sem.prototype.CameraActivity;
 import grpd.sm1sem.prototype.MainActivity;
 import grpd.sm1sem.prototype.R;
 
 
 public class CreateReportFragment extends Fragment {
+    private static final int CAMERA_REQUEST = 1888;
+    private static final int SELECT_PHOTO = 100;
+    private ImageView imageView;
+    private View view;
 
     public CreateReportFragment() {
         // Required empty public constructor
@@ -35,19 +57,69 @@ public class CreateReportFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_create_report, container, false);
+        view = inflater.inflate(R.layout.fragment_create_report, container, false);
 
         Button btn = (Button)view.findViewById(R.id.btn);
+        Button btn2 = (Button)view.findViewById(R.id.btn2);
+        Button btn3 = (Button)view.findViewById(R.id.btn3);
+        this.imageView = (ImageView)view.findViewById(R.id.imageView);
+
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), CameraActivity.class));
+                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(cameraIntent, CAMERA_REQUEST);
             }
         });
         // Inflate the layout for this fragment
+
+        btn2.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                EditText topic = (EditText)view.findViewById(R.id.textTopic);
+                EditText desc = (EditText)view.findViewById(R.id.textDesc);
+                ImageView img = (ImageView)view.findViewById(R.id.imageView);
+                Bitmap bitImage=((BitmapDrawable)imageView.getDrawable()).getBitmap();
+                ReportWrapper rw = new ReportWrapper(topic.getText().toString(),"", desc.getText().toString(), (long) 0,(long) 0, "","","","", bitImage);
+
+
+                DatabaseHelper dbh = new DatabaseHelper(getActivity());
+                dbh.insertReport(dbh.getWritableDatabase(), rw);
+
+            }
+
+        });
+        btn3.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                photoPickerIntent.setType("image/*");
+                startActivityForResult(photoPickerIntent, SELECT_PHOTO);
+            }
+
+        });
         return view;
     }
-
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
+            Bitmap photo = (Bitmap) data.getExtras().get("data");
+            imageView.setImageBitmap(photo);
+        }
+        switch (requestCode) {
+            case SELECT_PHOTO:
+                if (resultCode == Activity.RESULT_OK) {
+                    Uri selectedImage = data.getData();
+                    InputStream imageStream = null;
+                    try {
+                        imageStream = getActivity().getContentResolver().openInputStream(selectedImage);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    Bitmap yourSelectedImage = BitmapFactory.decodeStream(imageStream);
+                    imageView.setImageURI(selectedImage);// To display selected image in image view
+                }
+        }
+    }
 
 }
