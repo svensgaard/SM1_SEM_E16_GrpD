@@ -4,11 +4,9 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.graphics.Bitmap;
-
-import java.io.ByteArrayOutputStream;
 
 import Utitlities.ImageUtils;
+import Wrappers.CommentWrapper;
 import Wrappers.ReportWrapper;
 
 /**
@@ -47,6 +45,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(Contract.ReportEntry.COLUMN_NAME_POINTS, reportWrapper.getPoints());
 
         return db.insert(Contract.ReportEntry.TABLE_NAME, null, values);
+    }
+
+    public long insertComment(SQLiteDatabase db, CommentWrapper commentWrapper) {
+        ContentValues values = new ContentValues();
+        values.put(Contract.CommentEntry.COLUMN_NAME_TEXT, commentWrapper.getText());
+        values.put(Contract.CommentEntry.COLUMN_NAME_POINTS, commentWrapper.getPoints());
+        values.put(Contract.CommentEntry.COLUMN_NAME_IMAGE, ImageUtils.getBitmapAsByteArray(commentWrapper.getImage()));
+        values.put(Contract.CommentEntry.COLUMN_NAME_REPORT_FK, commentWrapper.getReport_fk());
+
+        return db.insert(Contract.CommentEntry.TABLE_NAME, null, values);
     }
 
     /* This method will update the database */

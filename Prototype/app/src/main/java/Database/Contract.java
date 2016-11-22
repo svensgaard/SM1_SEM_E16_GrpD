@@ -35,7 +35,9 @@ public final class Contract {
                     CommentEntry._ID + "INTEGER PRIMARY KEY, " +
                     CommentEntry.COLUMN_NAME_IMAGE + BLOB_TYPE + COMMA_SEP +
                     CommentEntry.COLUMN_NAME_TEXT + TEXT_TYPE + COMMA_SEP +
-                    CommentEntry.COLUMN_NAME_points + INTEGER_TYPE + COMMA_SEP +
+                    CommentEntry.COLUMN_NAME_POINTS + INTEGER_TYPE + COMMA_SEP +
+                    CommentEntry.COLUMN_NAME_REPORT_FK + INTEGER_TYPE + COMMA_SEP +
+                    "(FOREIGN KEY("+CommentEntry.COLUMN_NAME_REPORT_FK+") REFERENCES " + ReportEntry.TABLE_NAME +"(" + ReportEntry._ID + ")" +
                     " );"
             ;
 
@@ -59,8 +61,7 @@ public final class Contract {
         public static final String TABLE_NAME = "comment";
         public static final String COLUMN_NAME_TEXT = "text";
         public static final String COLUMN_NAME_IMAGE = "image";
-        public static final String COLUMN_NAME_points = "points";
-
-
+        public static final String COLUMN_NAME_POINTS = "points";
+        public static final String COLUMN_NAME_REPORT_FK = "report_fk";
     }
 }
