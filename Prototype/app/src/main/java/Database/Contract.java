@@ -27,7 +27,7 @@ public final class Contract {
                     ReportEntry.COLUMN_NAME_TIMESTAMP + TEXT_TYPE + COMMA_SEP +
                     ReportEntry.COLUMN_NAME_OPRINDELSE + TEXT_TYPE + COMMA_SEP +
                     ReportEntry.COLUMN_NAME_NEAR_ADDRESS + TEXT_TYPE + COMMA_SEP +
-                    ReportEntry.COLUMN_NAME_USERTYPE + TEXT_TYPE +
+                    ReportEntry.COLUMN_NAME_USERTYPE + TEXT_TYPE + COMMA_SEP +
                     ReportEntry.COLUMN_NAME_POINTS + INTEGER_TYPE +
                     " );" +
 
