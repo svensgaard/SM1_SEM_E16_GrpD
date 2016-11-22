@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
  */
 public class ReportWrapper {
 
+    private int id;
     private String emne;
     private String element;
     private String description;
@@ -17,9 +18,11 @@ public class ReportWrapper {
     private String oprindelse;
     private String near_address;
     private String usertype;
+    private Integer points;
 
     /*Constructor wihtout image*/
-    public ReportWrapper(String emne, String element, String description, Long longitude, Long latitude, String timestamp, String oprindelse, String near_address, String usertype) {
+    public ReportWrapper(int id, String emne, String element, String description, Long longitude, Long latitude, String timestamp, String oprindelse, String near_address, String usertype, int points) {
+        this.id = id;
         this.emne = emne;
         this.element = element;
         this.description = description;
@@ -29,9 +32,11 @@ public class ReportWrapper {
         this.oprindelse = oprindelse;
         this.near_address = near_address;
         this.usertype = usertype;
+        this.points = points;
     }
     /*Constructor with image */
-    public ReportWrapper(String emne, String element, String description, Long longitude, Long latitude, String timestamp, String oprindelse, String near_address, String usertype, Bitmap image) {
+    public ReportWrapper(int id, String emne, String element, String description, Long longitude, Long latitude, String timestamp, String oprindelse, String near_address, String usertype, Bitmap image, int points) {
+        this.id = id;
         this.emne = emne;
         this.element = element;
         this.description = description;
@@ -42,6 +47,15 @@ public class ReportWrapper {
         this.oprindelse = oprindelse;
         this.near_address = near_address;
         this.usertype = usertype;
+        this.points = points;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getEmne() {
@@ -122,5 +136,17 @@ public class ReportWrapper {
 
     public void setUsertype(String usertype) {
         this.usertype = usertype;
+    }
+
+    public Integer getPoints() {
+        return points;
+    }
+
+    public void setPoints(Integer points) {
+        this.points = points;
+    }
+
+    public static ReportWrapper getDummyReport() {
+        return new ReportWrapper(1, "Emne", "Element", "Description", new Long(34), new Long(45), "2010-05-28T15:36:56.200", "Oprindelse", "Campusvej 55 5230 Odense M", "Bruger", 10);
     }
 }

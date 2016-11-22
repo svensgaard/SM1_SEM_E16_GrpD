@@ -4,10 +4,9 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.graphics.Bitmap;
 
-import java.io.ByteArrayOutputStream;
-
+import Utitlities.ImageUtils;
+import Wrappers.CommentWrapper;
 import Wrappers.ReportWrapper;
 
 /**
@@ -36,22 +35,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(Contract.ReportEntry.COLUMN_NAME_EMNE, reportWrapper.getEmne());
         values.put(Contract.ReportEntry.COLUMN_NAME_ELEMENT, reportWrapper.getElement());
         values.put(Contract.ReportEntry.COLUMN_NAME_DESCRIPTION, reportWrapper.getDescription());
-        values.put(Contract.ReportEntry.COLUMN_NAME_IMAGE, getBitmapAsByteArray(reportWrapper.getImage()));
+        values.put(Contract.ReportEntry.COLUMN_NAME_IMAGE, ImageUtils.getBitmapAsByteArray(reportWrapper.getImage()));
         values.put(Contract.ReportEntry.COLUMN_NAME_LONGITUDE, reportWrapper.getLongitude());
         values.put(Contract.ReportEntry.COLUMN_NAME_LATITUDE, reportWrapper.getLatitude());
         values.put(Contract.ReportEntry.COLUMN_NAME_TIMESTAMP, reportWrapper.getTimestamp());
         values.put(Contract.ReportEntry.COLUMN_NAME_OPRINDELSE, reportWrapper.getOprindelse());
         values.put(Contract.ReportEntry.COLUMN_NAME_NEAR_ADDRESS, reportWrapper.getNear_address());
         values.put(Contract.ReportEntry.COLUMN_NAME_USERTYPE, reportWrapper.getUsertype());
+        values.put(Contract.ReportEntry.COLUMN_NAME_POINTS, reportWrapper.getPoints());
 
         return db.insert(Contract.ReportEntry.TABLE_NAME, null, values);
     }
-    //Method used to make the bitmap into a byte array.
-    public static byte[] getBitmapAsByteArray(Bitmap bitmap) {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 0, outputStream);
-        return outputStream.toByteArray();
+
+    public long insertComment(SQLiteDatabase db, CommentWrapper commentWrapper) {
+        ContentValues values = new ContentValues();
+        values.put(Contract.CommentEntry.COLUMN_NAME_TEXT, commentWrapper.getText());
+        values.put(Contract.CommentEntry.COLUMN_NAME_POINTS, commentWrapper.getPoints());
+        values.put(Contract.CommentEntry.COLUMN_NAME_IMAGE, ImageUtils.getBitmapAsByteArray(commentWrapper.getImage()));
+        values.put(Contract.CommentEntry.COLUMN_NAME_REPORT_FK, commentWrapper.getReport_fk());
+
+        return db.insert(Contract.CommentEntry.TABLE_NAME, null, values);
     }
+
     /* This method will update the database */
     private void updateDatabase(SQLiteDatabase db, int oldVersion, int newVersion) {
         if(oldVersion < 1) {

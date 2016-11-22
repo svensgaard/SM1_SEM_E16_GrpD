@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -28,6 +29,8 @@ import java.io.InputStream;
 
 import Database.DatabaseHelper;
 import Wrappers.ReportWrapper;
+import LocationTracking.FallbackLocationTracker;
+import LocationTracking.LocationTracker;
 import grpd.sm1sem.prototype.CameraActivity;
 import grpd.sm1sem.prototype.MainActivity;
 import grpd.sm1sem.prototype.R;
@@ -38,6 +41,9 @@ public class CreateReportFragment extends Fragment {
     private static final int SELECT_PHOTO = 100;
     private ImageView imageView;
     private View view;
+    private final static String TAG = "CreateReportFragment";
+    private LocationTracker locationTracker;
+    private Location location;
 
     public CreateReportFragment() {
         // Required empty public constructor
@@ -52,6 +58,13 @@ public class CreateReportFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if (this.isAdded()) {
+            locationTracker = new FallbackLocationTracker(getActivity().getApplicationContext());
+            location = locationTracker.getLocation();
+            locationTracker.stop();
+        }
+        //location.getLatitude, location.getLongitude
+        //Gem koordinater, billeder, kommentarer osv. i databasen
     }
 
     @Override
@@ -81,7 +94,7 @@ public class CreateReportFragment extends Fragment {
                 EditText desc = (EditText)view.findViewById(R.id.textDesc);
                 ImageView img = (ImageView)view.findViewById(R.id.imageView);
                 Bitmap bitImage=((BitmapDrawable)imageView.getDrawable()).getBitmap();
-                ReportWrapper rw = new ReportWrapper(topic.getText().toString(),"", desc.getText().toString(), (long) 0,(long) 0, "","","","", bitImage);
+                ReportWrapper rw = new ReportWrapper(0, topic.getText().toString(),"", desc.getText().toString(), (long) 0,(long) 0, "","","","", bitImage, 0);
 
 
                 DatabaseHelper dbh = new DatabaseHelper(getActivity());

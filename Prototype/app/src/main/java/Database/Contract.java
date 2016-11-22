@@ -2,8 +2,6 @@ package Database;
 
 import android.provider.BaseColumns;
 
-import java.sql.Blob;
-
 /**
  * Created by Mads on 08-11-2016.
  */
@@ -14,6 +12,7 @@ public final class Contract {
     private static final String BLOB_TYPE = " BLOB";
     private static final String TEXT_TYPE = " TEXT";
     private static final String REAL_TYPE = " REAL";
+    private static final String INTEGER_TYPE = " INTEGER";
     private static final String COMMA_SEP = ",";
 
     public static final String SQL_CREATE_TABLES =
@@ -29,7 +28,18 @@ public final class Contract {
                     ReportEntry.COLUMN_NAME_OPRINDELSE + TEXT_TYPE + COMMA_SEP +
                     ReportEntry.COLUMN_NAME_NEAR_ADDRESS + TEXT_TYPE + COMMA_SEP +
                     ReportEntry.COLUMN_NAME_USERTYPE + TEXT_TYPE +
-                    " )";
+                    ReportEntry.COLUMN_NAME_POINTS + INTEGER_TYPE +
+                    " );" +
+
+                    "CREATE TABLE " + CommentEntry.TABLE_NAME + " ("+
+                    CommentEntry._ID + "INTEGER PRIMARY KEY, " +
+                    CommentEntry.COLUMN_NAME_IMAGE + BLOB_TYPE + COMMA_SEP +
+                    CommentEntry.COLUMN_NAME_TEXT + TEXT_TYPE + COMMA_SEP +
+                    CommentEntry.COLUMN_NAME_POINTS + INTEGER_TYPE + COMMA_SEP +
+                    CommentEntry.COLUMN_NAME_REPORT_FK + INTEGER_TYPE + COMMA_SEP +
+                    "(FOREIGN KEY("+CommentEntry.COLUMN_NAME_REPORT_FK+") REFERENCES " + ReportEntry.TABLE_NAME +"(" + ReportEntry._ID + ")" +
+                    " );"
+            ;
 
     /* Inner class that defines the table contents */
     public static class ReportEntry implements BaseColumns {
@@ -44,6 +54,14 @@ public final class Contract {
         public static final String COLUMN_NAME_OPRINDELSE = "oprindelse";
         public static final String COLUMN_NAME_NEAR_ADDRESS = "near_address";
         public static final String COLUMN_NAME_USERTYPE = "usertype";
+        public static final String COLUMN_NAME_POINTS = "points";
 
+    }
+    public static class CommentEntry implements BaseColumns{
+        public static final String TABLE_NAME = "comment";
+        public static final String COLUMN_NAME_TEXT = "text";
+        public static final String COLUMN_NAME_IMAGE = "image";
+        public static final String COLUMN_NAME_POINTS = "points";
+        public static final String COLUMN_NAME_REPORT_FK = "report_fk";
     }
 }
