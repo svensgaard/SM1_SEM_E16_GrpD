@@ -58,13 +58,6 @@ public class CreateReportFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (this.isAdded()) {
-            locationTracker = new FallbackLocationTracker(getActivity().getApplicationContext());
-            location = locationTracker.getLocation();
-            locationTracker.stop();
-        }
-        //location.getLatitude, location.getLongitude
-        //Gem koordinater, billeder, kommentarer osv. i databasen
     }
 
     @Override
@@ -94,8 +87,12 @@ public class CreateReportFragment extends Fragment {
                 EditText desc = (EditText)view.findViewById(R.id.textDesc);
                 ImageView img = (ImageView)view.findViewById(R.id.imageView);
                 Bitmap bitImage=((BitmapDrawable)imageView.getDrawable()).getBitmap();
-                ReportWrapper rw = new ReportWrapper(0, topic.getText().toString(),"", desc.getText().toString(), (long) 0,(long) 0, "","","","", bitImage, 0);
 
+                locationTracker = new FallbackLocationTracker(getActivity().getApplicationContext());
+                location = locationTracker.getLocation();
+                locationTracker.stop();
+
+                ReportWrapper rw = new ReportWrapper(0, topic.getText().toString(),"", desc.getText().toString(), (long) location.getLatitude(),(long) location.getLongitude(), "","","","", bitImage, 0);
 
                 DatabaseHelper dbh = new DatabaseHelper(getActivity());
                 dbh.insertReport(dbh.getWritableDatabase(), rw);
