@@ -50,6 +50,10 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        InitializeGeofencing();
+    }
+
+    private void InitializeGeofencing() {
         DatabaseHelper dbh = new DatabaseHelper(getActivity());
         List<GeoReport> geoReportList = dbh.getAllGeoReports();
 
