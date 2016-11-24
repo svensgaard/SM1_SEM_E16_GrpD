@@ -26,7 +26,6 @@ import Services.GeofenceService;
  */
 
 public class Geofencer implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
-    private final String GEOFENCE_ID = "ID";
     private final int GEOFENCE_RADIUS_IN_METERS = 30;
     private static final String TAG = "Geofencer";
     public GoogleApiClient googleApiClient = null;
@@ -70,11 +69,11 @@ public class Geofencer implements GoogleApiClient.ConnectionCallbacks, GoogleApi
         }
     }
 
-    private void createGeofence(Long latitude, Long longitude) {
+    public void createGeofence(String ID, long latitude, long longitude) {
         Log.d(TAG, "Geofence create process started");
         try {
             Geofence geofence = new Geofence.Builder()
-                    .setRequestId(GEOFENCE_ID)
+                    .setRequestId(ID)
                     .setCircularRegion(
                             latitude,
                             longitude,

@@ -68,7 +68,7 @@ public class CreateReportFragment extends Fragment {
         Button btn = (Button)view.findViewById(R.id.btn);
         Button btn2 = (Button)view.findViewById(R.id.btn2);
         Button btn3 = (Button)view.findViewById(R.id.btn3);
-        this.imageView = (ImageView)view.findViewById(R.id.imageView);
+        //this.imageView = (ImageView)view.findViewById(R.id.imageView);
 
 
         btn.setOnClickListener(new View.OnClickListener() {
@@ -86,7 +86,7 @@ public class CreateReportFragment extends Fragment {
                 EditText topic = (EditText)view.findViewById(R.id.textTopic);
                 EditText desc = (EditText)view.findViewById(R.id.textDesc);
                 ImageView img = (ImageView)view.findViewById(R.id.imageView);
-                Bitmap bitImage=((BitmapDrawable)imageView.getDrawable()).getBitmap();
+                Bitmap bitImage=((BitmapDrawable)img.getDrawable()).getBitmap();
 
                 locationTracker = new FallbackLocationTracker(getActivity().getApplicationContext());
                 location = locationTracker.getLocation();

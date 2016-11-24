@@ -5,10 +5,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
+import Models.GeoReport;
 import Utitlities.ImageUtils;
 import Wrappers.CommentWrapper;
 import Wrappers.ReportWrapper;
@@ -49,6 +53,34 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(Contract.ReportEntry.COLUMN_NAME_POINTS, reportWrapper.getPoints());
 
         return db.insert(Contract.ReportEntry.TABLE_NAME, null, values);
+    }
+
+    public List<GeoReport> getAllGeoReports() {
+        List<GeoReport> geoReportList = new LinkedList<GeoReport>();
+
+        // 1. build the query
+        String query = "SELECT * FROM " + Contract.ReportEntry.TABLE_NAME;
+
+        // 2. get reference to writable DB
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        // 3. go over each row, build book and add it to list
+        GeoReport geoReport = null;
+        if (cursor.moveToFirst()) {
+            do {
+                geoReport = new GeoReport();
+                geoReport.setID(cursor.getString(1));
+                geoReport.setLatitude(Long.parseLong(cursor.getString(5)));
+                geoReport.setLongitude(Long.parseLong(cursor.getString(4)));
+
+                geoReportList.add(geoReport);
+            } while (cursor.moveToNext());
+        }
+
+        Log.d("getAllBooks()", geoReportList.toString());
+
+        return geoReportList;
     }
 
     public long insertComment(SQLiteDatabase db, CommentWrapper commentWrapper) {

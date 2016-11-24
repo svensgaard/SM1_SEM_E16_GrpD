@@ -26,6 +26,11 @@ import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
+import java.util.List;
+
+import Database.DatabaseHelper;
+import Geofencing.Geofencer;
+import Models.GeoReport;
 import Services.GeofenceService;
 import grpd.sm1sem.prototype.EncounteredReportsActivity;
 import grpd.sm1sem.prototype.R;
@@ -35,7 +40,7 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
     View view;
     Button createReportButton;
     Button encReportsButton;
-
+    Geofencer geofencer;
 
     public MenuFragment() {
         // Required empty public constructor
@@ -44,6 +49,18 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        InitializeGeofencing();
+    }
+
+    private void InitializeGeofencing() {
+        DatabaseHelper dbh = new DatabaseHelper(getActivity());
+        List<GeoReport> geoReportList = dbh.getAllGeoReports();
+
+        for (GeoReport report : geoReportList)
+            geofencer.createGeofence(report.getID(), report.getLatitude(), report.getLongitude());
+
+        geofencer.startLocationMonitoring();
     }
 
     @Override
