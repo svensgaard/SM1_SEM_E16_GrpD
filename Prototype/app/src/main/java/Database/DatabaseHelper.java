@@ -2,8 +2,12 @@ package Database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 import Utitlities.ImageUtils;
 import Wrappers.CommentWrapper;
@@ -55,6 +59,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(Contract.CommentEntry.COLUMN_NAME_REPORT_FK, commentWrapper.getReport_fk());
 
         return db.insert(Contract.CommentEntry.TABLE_NAME, null, values);
+    }
+
+    public ArrayList<ReportWrapper> getAllReports() {
+        String selectQuery = "SELECT * FROM " + Contract.ReportEntry.TABLE_NAME;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        ArrayList<ReportWrapper> result = new ArrayList<>();
+
+        if(cursor.moveToFirst()) {
+            do {
+                ReportWrapper report = new ReportWrapper(
+                cursor.getInt(0),
+                cursor.getString(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_EMNE)),
+                cursor.getString(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_ELEMENT)),
+                cursor.getString(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_DESCRIPTION)),
+                cursor.getLong(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_LONGITUDE)),
+                cursor.getLong(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_LATITUDE)),
+                cursor.getString(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_TIMESTAMP)),
+                cursor.getString(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_OPRINDELSE)),
+                cursor.getString(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_NEAR_ADDRESS)),
+                cursor.getString(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_USERTYPE)),
+                ImageUtils.getByteArrayAsBitmap(cursor.getBlob(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_IMAGE))),
+                cursor.getInt(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_POINTS))
+                        );
+                result.add(report);
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
+
+        return result;
     }
 
     /* This method will update the database */

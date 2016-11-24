@@ -91,8 +91,12 @@ public class CreateReportFragment extends Fragment {
                 locationTracker = new FallbackLocationTracker(getActivity().getApplicationContext());
                 location = locationTracker.getLocation();
                 locationTracker.stop();
-
-                ReportWrapper rw = new ReportWrapper(0, topic.getText().toString(),"", desc.getText().toString(), (long) location.getLatitude(),(long) location.getLongitude(), "","","","", bitImage, 0);
+                ReportWrapper rw;
+                if(location != null) {
+                    rw = new ReportWrapper(0, topic.getText().toString(),"", desc.getText().toString(), (long) location.getLatitude(),(long) location.getLongitude(), "","","","", bitImage, 0);
+                } else {
+                    rw = new ReportWrapper(0, topic.getText().toString(),"", desc.getText().toString(), (long) 34,(long) 45, "","","","", bitImage, 0);
+                }
 
                 DatabaseHelper dbh = new DatabaseHelper(getActivity());
                 dbh.insertReport(dbh.getWritableDatabase(), rw);

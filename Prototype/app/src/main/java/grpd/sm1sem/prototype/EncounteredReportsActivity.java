@@ -1,5 +1,6 @@
 package grpd.sm1sem.prototype;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -11,8 +12,12 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 
+import java.util.ArrayList;
+
+import Database.DatabaseHelper;
 import Fragments.ReportFragment;
 import Wrappers.ReportWrapper;
 
@@ -28,27 +33,29 @@ public class EncounteredReportsActivity extends FragmentActivity {
         setContentView(R.layout.activity_encountered_reports);
 
         viewPager = (ViewPager) findViewById(R.id.pager);
-        pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+        pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager(), this);
         viewPager.setAdapter(pagerAdapter);
     }
 
-    /**
-     * A simple pager adapter that represents 5 ScreenSlidePageFragment objects, in
-     * sequence.
-     */
+
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
-        public ScreenSlidePagerAdapter(FragmentManager fm) {
+        ArrayList<ReportWrapper> encounteredReports;
+        public ScreenSlidePagerAdapter(FragmentManager fm, Context context) {
+
             super(fm);
+            DatabaseHelper dbHelper = new DatabaseHelper(context);
+
+            encounteredReports = dbHelper.getAllReports();
         }
 
         @Override
         public Fragment getItem(int position) {
-            return ReportFragment.newInstance(ReportWrapper.getDummyReport());
+            return ReportFragment.newInstance(encounteredReports.get(position));
         }
 
         @Override
         public int getCount() {
-            return 5;
+            return encounteredReports.size();
         }
     }
 }
