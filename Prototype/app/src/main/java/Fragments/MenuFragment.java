@@ -41,6 +41,7 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
     Button createReportButton;
     Button encReportsButton;
     Geofencer geofencer;
+    GoogleApiClient googleApiClient;
 
     public MenuFragment() {
         // Required empty public constructor
@@ -56,6 +57,8 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
     private void InitializeGeofencing() {
         DatabaseHelper dbh = new DatabaseHelper(getActivity());
         List<GeoReport> geoReportList = dbh.getAllGeoReports();
+
+        geofencer = new Geofencer(this.getActivity());
 
         for (GeoReport report : geoReportList)
             geofencer.createGeofence(report.getID(), report.getLatitude(), report.getLongitude());
