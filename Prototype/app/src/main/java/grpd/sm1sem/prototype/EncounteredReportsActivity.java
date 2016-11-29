@@ -39,23 +39,24 @@ public class EncounteredReportsActivity extends FragmentActivity {
 
 
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
-        ArrayList<ReportWrapper> encounteredReports;
+        ArrayList<Integer> encounteredReportIDs;
+
         public ScreenSlidePagerAdapter(FragmentManager fm, Context context) {
 
             super(fm);
             DatabaseHelper dbHelper = new DatabaseHelper(context);
 
-            encounteredReports = dbHelper.getAllReports();
+            encounteredReportIDs = dbHelper.getAllIds();
         }
 
         @Override
         public Fragment getItem(int position) {
-            return ReportFragment.newInstance(encounteredReports.get(position));
+            return ReportFragment.newInstance(encounteredReportIDs.get(position));
         }
 
         @Override
         public int getCount() {
-            return encounteredReports.size();
+            return encounteredReportIDs.size();
         }
     }
 }

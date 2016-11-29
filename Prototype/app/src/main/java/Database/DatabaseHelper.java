@@ -123,6 +123,69 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result;
     }
 
+
+    public ArrayList<Integer> getAllIds() {
+        String selectQuery = "SELECT * FROM " + Contract.ReportEntry.TABLE_NAME;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        ArrayList<Integer> result = new ArrayList<>();
+
+        if(cursor.moveToFirst()) {
+            do {
+                result.add(cursor.getInt(0));
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
+
+        return result;
+    }
+
+    public ReportWrapper getReport(int id) {
+        String selectQuery = "SELECT * FROM " + Contract.ReportEntry.TABLE_NAME + " WHERE "+ Contract.ReportEntry._ID +" = '" + id + "'";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        ReportWrapper report = null;
+        if(cursor.moveToFirst()) {
+            report = new ReportWrapper(
+                    cursor.getInt(0),
+                    cursor.getString(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_EMNE)),
+                    cursor.getString(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_ELEMENT)),
+                    cursor.getString(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_DESCRIPTION)),
+                    cursor.getLong(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_LONGITUDE)),
+                    cursor.getLong(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_LATITUDE)),
+                    cursor.getString(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_TIMESTAMP)),
+                    cursor.getString(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_OPRINDELSE)),
+                    cursor.getString(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_NEAR_ADDRESS)),
+                    cursor.getString(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_USERTYPE)),
+                    ImageUtils.getByteArrayAsBitmap(cursor.getBlob(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_IMAGE))),
+                    cursor.getInt(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_POINTS)));
+
+        }
+        if(report != null) {
+            return report;
+        } else {
+            return ReportWrapper.getDummyReport();
+        }
+    }
+
+    public int upvoteReport(int id, int oldpoints) {
+        int newPoints = oldpoints + 1;
+        String updateQuery = "UPDATE " + Contract.ReportEntry.TABLE_NAME + " SET " + Contract.ReportEntry.COLUMN_NAME_POINTS + " = " + newPoints;
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.rawQuery(updateQuery, null);
+
+        return newPoints;
+    }
+
+    public int downvoteReport(int id, int oldpoints) {
+        int newPoints = oldpoints - 1;
+        String updateQuery = "UPDATE " + Contract.ReportEntry.TABLE_NAME + " SET " + Contract.ReportEntry.COLUMN_NAME_POINTS + " = " + newPoints;
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.rawQuery(updateQuery, null);
+
+        return newPoints;
+    }
+
     /* This method will update the database */
     private void updateDatabase(SQLiteDatabase db, int oldVersion, int newVersion) {
         if(oldVersion < 1) {
