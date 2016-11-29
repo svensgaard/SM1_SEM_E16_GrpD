@@ -31,10 +31,12 @@ public class Geofencer implements GoogleApiClient.ConnectionCallbacks, GoogleApi
     public GoogleApiClient googleApiClient = null;
     private Context context;
 
+    public Geofencer(){}
+
     public Geofencer(Context context){
         googleApiClient = new GoogleApiClient.Builder(context)
                 .addApi(LocationServices.API)
-                .addConnectionCallbacks((GoogleApiClient.ConnectionCallbacks) context)
+                .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .build();
     }
