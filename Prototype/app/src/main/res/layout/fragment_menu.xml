@@ -13,6 +13,7 @@
         <Button
             android:layout_width="300dp"
             android:layout_height="70dp"
+            android:backgroundTint="@color/colorDefaultButton"
             android:text="@string/create_report_btn"
             android:id="@+id/CreateReportBtn"
             android:gravity="center"
@@ -21,6 +22,7 @@
         <Button
             android:layout_width="300dp"
             android:layout_height="70dp"
+            android:backgroundTint="@color/colorDefaultButton"
             android:text="@string/enc_report_btn"
             android:id="@+id/encReportsBtn"
             android:gravity="center"
