@@ -71,8 +71,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             do {
                 geoReport = new GeoReport();
                 geoReport.setID(cursor.getString(1));
-                geoReport.setLatitude(Long.parseLong(cursor.getString(5)));
-                geoReport.setLongitude(Long.parseLong(cursor.getString(4)));
+                geoReport.setLatitude(Long.parseLong(cursor.getString(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_LATITUDE))));
+                geoReport.setLongitude(Long.parseLong(cursor.getString(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_LONGITUDE))));
 
                 geoReportList.add(geoReport);
             } while (cursor.moveToNext());
@@ -142,6 +142,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public ReportWrapper getReport(int id) {
         String selectQuery = "SELECT * FROM " + Contract.ReportEntry.TABLE_NAME + " WHERE "+ Contract.ReportEntry._ID +" = '" + id + "'";
+
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
         ReportWrapper report = null;

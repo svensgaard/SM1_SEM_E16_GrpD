@@ -17,7 +17,7 @@ public final class Contract {
 
     public static final String SQL_CREATE_TABLES =
             "CREATE TABLE " + ReportEntry.TABLE_NAME + " (" +
-                    ReportEntry._ID + "INTEGER PRIMARY KEY, " +
+                    ReportEntry._ID + " INTEGER PRIMARY KEY, " +
                     ReportEntry.COLUMN_NAME_EMNE + TEXT_TYPE + COMMA_SEP +
                     ReportEntry.COLUMN_NAME_ELEMENT + TEXT_TYPE + COMMA_SEP +
                     ReportEntry.COLUMN_NAME_DESCRIPTION + TEXT_TYPE + COMMA_SEP +
