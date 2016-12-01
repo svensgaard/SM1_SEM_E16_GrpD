@@ -15,7 +15,7 @@ public final class Contract {
     private static final String INTEGER_TYPE = " INTEGER";
     private static final String COMMA_SEP = ",";
 
-    public static final String SQL_CREATE_TABLES =
+    public static final String SQL_CREATE_REPORT_TABLE =
             "CREATE TABLE " + ReportEntry.TABLE_NAME + " (" +
                     ReportEntry._ID + " INTEGER PRIMARY KEY, " +
                     ReportEntry.COLUMN_NAME_EMNE + TEXT_TYPE + COMMA_SEP +
@@ -29,15 +29,16 @@ public final class Contract {
                     ReportEntry.COLUMN_NAME_NEAR_ADDRESS + TEXT_TYPE + COMMA_SEP +
                     ReportEntry.COLUMN_NAME_USERTYPE + TEXT_TYPE + COMMA_SEP +
                     ReportEntry.COLUMN_NAME_POINTS + INTEGER_TYPE +
-                    " );" +
-
-                    "CREATE TABLE " + CommentEntry.TABLE_NAME + " ("+
-                    CommentEntry._ID + "INTEGER PRIMARY KEY, " +
+                    " ); "
+            ;
+    public static final String SQL_CREATE_COMMENT_TABLE =
+            "CREATE TABLE " + CommentEntry.TABLE_NAME + " ("+
+                    CommentEntry._ID + " INTEGER PRIMARY KEY, " +
                     CommentEntry.COLUMN_NAME_IMAGE + BLOB_TYPE + COMMA_SEP +
                     CommentEntry.COLUMN_NAME_TEXT + TEXT_TYPE + COMMA_SEP +
                     CommentEntry.COLUMN_NAME_POINTS + INTEGER_TYPE + COMMA_SEP +
                     CommentEntry.COLUMN_NAME_REPORT_FK + INTEGER_TYPE + COMMA_SEP +
-                    "(FOREIGN KEY("+CommentEntry.COLUMN_NAME_REPORT_FK+") REFERENCES " + ReportEntry.TABLE_NAME +"(" + ReportEntry._ID + ")" +
+                    " FOREIGN KEY("+CommentEntry.COLUMN_NAME_REPORT_FK+") REFERENCES " + ReportEntry.TABLE_NAME +"(" + ReportEntry._ID + ")" +
                     " );"
             ;
 

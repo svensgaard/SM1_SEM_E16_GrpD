@@ -115,6 +115,7 @@ public class CreateReportFragment extends Fragment {
         });
         return view;
     }
+
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
             Bitmap photo = (Bitmap) data.getExtras().get("data");
@@ -131,7 +132,7 @@ public class CreateReportFragment extends Fragment {
                         e.printStackTrace();
                     }
                     Bitmap yourSelectedImage = BitmapFactory.decodeStream(imageStream);
-                    imageView.setImageURI(selectedImage);// To display selected image in image view
+                    imageView.setImageBitmap(yourSelectedImage);// To display selected image in image view
                 }
         }
     }

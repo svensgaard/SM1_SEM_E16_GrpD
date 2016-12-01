@@ -5,9 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
 import android.util.Log;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -51,8 +51,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(Contract.ReportEntry.COLUMN_NAME_NEAR_ADDRESS, reportWrapper.getNear_address());
         values.put(Contract.ReportEntry.COLUMN_NAME_USERTYPE, reportWrapper.getUsertype());
         values.put(Contract.ReportEntry.COLUMN_NAME_POINTS, reportWrapper.getPoints());
-
-        return db.insert(Contract.ReportEntry.TABLE_NAME, null, values);
+        long id = db.insert(Contract.ReportEntry.TABLE_NAME, null, values);
+        db.close();
+        return id;
     }
 
     public List<GeoReport> getAllGeoReports() {
@@ -87,10 +88,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(Contract.CommentEntry.COLUMN_NAME_TEXT, commentWrapper.getText());
         values.put(Contract.CommentEntry.COLUMN_NAME_POINTS, commentWrapper.getPoints());
-        values.put(Contract.CommentEntry.COLUMN_NAME_IMAGE, ImageUtils.getBitmapAsByteArray(commentWrapper.getImage()));
+        if(commentWrapper.getImage() != null) {
+            values.put(Contract.CommentEntry.COLUMN_NAME_IMAGE, ImageUtils.getBitmapAsByteArray(commentWrapper.getImage()));
+        }
         values.put(Contract.CommentEntry.COLUMN_NAME_REPORT_FK, commentWrapper.getReport_fk());
-
-        return db.insert(Contract.CommentEntry.TABLE_NAME, null, values);
+        long id = db.insert(Contract.CommentEntry.TABLE_NAME, null, values);
+        db.close();
+        return id;
     }
 
     public ArrayList<ReportWrapper> getAllReports() {
@@ -136,7 +140,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
             cursor.close();
         }
-
+        db.close();
         return result;
     }
 
@@ -162,6 +166,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     cursor.getInt(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_POINTS)));
 
         }
+        db.close();
         if(report != null) {
             return report;
         } else {
@@ -174,7 +179,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String updateQuery = "UPDATE " + Contract.ReportEntry.TABLE_NAME + " SET " + Contract.ReportEntry.COLUMN_NAME_POINTS + " = " + newPoints;
         SQLiteDatabase db = this.getWritableDatabase();
         db.rawQuery(updateQuery, null);
-
+        db.close();
         return newPoints;
     }
 
@@ -183,19 +188,52 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String updateQuery = "UPDATE " + Contract.ReportEntry.TABLE_NAME + " SET " + Contract.ReportEntry.COLUMN_NAME_POINTS + " = " + newPoints;
         SQLiteDatabase db = this.getWritableDatabase();
         db.rawQuery(updateQuery, null);
-
+        db.close();
         return newPoints;
+    }
+
+    public ArrayList<CommentWrapper> getComments(int reportID) {
+        String selectQuery = "SELECT * FROM " + Contract.CommentEntry.TABLE_NAME + " WHERE "+ Contract.CommentEntry.COLUMN_NAME_REPORT_FK +" = '" + reportID + "'";
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        ArrayList<CommentWrapper> comments = new ArrayList<>();
+        if(cursor.moveToFirst()) {
+            int id = cursor.getInt(cursor.getColumnIndex(Contract.CommentEntry._ID));
+            String text = cursor.getString(cursor.getColumnIndex(Contract.CommentEntry.COLUMN_NAME_TEXT));
+            Bitmap image = null;
+            if(!cursor.isNull(cursor.getColumnIndex(Contract.CommentEntry.COLUMN_NAME_IMAGE))) {
+                image = ImageUtils.getByteArrayAsBitmap(cursor.getBlob(cursor.getColumnIndex(Contract.CommentEntry.COLUMN_NAME_IMAGE)));
+            }
+            int points = cursor.getInt(cursor.getColumnIndex(Contract.CommentEntry.COLUMN_NAME_POINTS));
+
+            CommentWrapper comment = null;
+            if(image != null) {
+                comment = new CommentWrapper(id, text, image, points, reportID);
+            } else {
+                comment = new CommentWrapper(id, text, points, reportID);
+            }
+            comments.add(comment);
+
+        }
+        db.close();
+        return comments;
     }
 
     /* This method will update the database */
     private void updateDatabase(SQLiteDatabase db, int oldVersion, int newVersion) {
         if(oldVersion < 1) {
             //Create database
-            db.execSQL(Contract.SQL_CREATE_TABLES);
+            db.execSQL(Contract.SQL_CREATE_REPORT_TABLE);
+            db.execSQL(Contract.SQL_CREATE_COMMENT_TABLE);
         }
         if(oldVersion < 2) {
             //Update 1 to database IE add a new column or table
             //Continue oldVersion < 3 when updating the database
         }
+        if(oldVersion < 3) {
+
+        }
+        db.close();
     }
 }

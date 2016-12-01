@@ -1,6 +1,7 @@
 package Fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,12 +12,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 import Database.Contract;
 import Database.DatabaseHelper;
 import Utitlities.ImageUtils;
+import Wrappers.CommentAdapter;
+import Wrappers.CommentWrapper;
 import Wrappers.ReportWrapper;
+import grpd.sm1sem.prototype.AddCommentActivity;
 import grpd.sm1sem.prototype.R;
 
 public class ReportFragment extends Fragment {
@@ -92,11 +99,23 @@ public class ReportFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                // Add Comment
+                Intent startIntent = new Intent(getActivity(), AddCommentActivity.class);
+                startIntent.putExtra(AddCommentActivity.EXTRAS_ID, reportID);
+                startActivity(startIntent);
             }
         });
+        //Get comments
+        DatabaseHelper dbHelper = new DatabaseHelper(getActivity());
+        //Get comments and cast arraylist to array
+        ArrayList<CommentWrapper> commentWrapperArrayList = dbHelper.getComments(report.getId());
+        CommentWrapper[] comments = new CommentWrapper[commentWrapperArrayList.size()];
+        comments = commentWrapperArrayList.toArray(comments);
 
-        // Inflate the layout for this fragment
+        //Set arrayAdapter for listview
+        CommentAdapter commentAdapter = new CommentAdapter(getActivity(), R.layout.comment_item, comments);
+        ListView commentListview = (ListView) mainView.findViewById(R.id.arrayAdapterListView);
+        commentListview.setAdapter(commentAdapter);
+
         return mainView;
     }
 
