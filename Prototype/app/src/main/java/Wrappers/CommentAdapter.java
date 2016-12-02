@@ -43,6 +43,7 @@ public class CommentAdapter extends ArrayAdapter<CommentWrapper> {
 
             holder = new CommentHolder();
             holder.commentTextView = (TextView) rowView.findViewById(R.id.commentTextView);
+            holder.scoreTextView = (TextView) rowView.findViewById(R.id.scoreTextView);
             holder.upvoteButton = (Button) rowView.findViewById(R.id.upvoteCommentButton);
             holder.downvoteButton = (Button) rowView.findViewById(R.id.downvoteCommentButton);
 
@@ -53,13 +54,14 @@ public class CommentAdapter extends ArrayAdapter<CommentWrapper> {
         }
 
         holder.commentTextView.setText(commentWrapper.getText());
+        holder.scoreTextView.setText("Score: " + commentWrapper.getPoints());
         //Set button listeners
         holder.upvoteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DatabaseHelper dbHelper = new DatabaseHelper(context);
                 commentWrapper.setPoints(dbHelper.upvoteComment(commentWrapper.getId(), commentWrapper.getPoints()));
-                Log.d(this.toString(), "Upvoted!");
+                Log.d(this.toString(), "Upvoted" + String.valueOf(commentWrapper.getPoints()));
             }
         });
         holder.downvoteButton.setOnClickListener(new View.OnClickListener() {
@@ -68,7 +70,7 @@ public class CommentAdapter extends ArrayAdapter<CommentWrapper> {
             public void onClick(View v) {
                 DatabaseHelper dbHelper = new DatabaseHelper(context);
                 commentWrapper.setPoints(dbHelper.downvoteComment(commentWrapper.getId(), commentWrapper.getPoints()));
-                Log.d(this.toString(), "Downvoted!");
+                Log.d(this.toString(), "Downvoted" + String.valueOf(commentWrapper.getPoints()));
             }
         });
 
@@ -82,6 +84,7 @@ public class CommentAdapter extends ArrayAdapter<CommentWrapper> {
 
     static class CommentHolder {
         TextView commentTextView;
+        TextView scoreTextView;
         Button upvoteButton;
         Button downvoteButton;
     }

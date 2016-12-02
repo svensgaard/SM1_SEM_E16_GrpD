@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
+import android.provider.ContactsContract;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -176,37 +177,45 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public int upvoteReport(int id, int oldpoints) {
         int newPoints = oldpoints + 1;
-        String updateQuery = "UPDATE " + Contract.ReportEntry.TABLE_NAME + " SET " + Contract.ReportEntry.COLUMN_NAME_POINTS + " = " + newPoints;
+        ContentValues values = new ContentValues();
+        values.put(Contract.ReportEntry.COLUMN_NAME_POINTS, String.valueOf(newPoints));
+        String where = Contract.ReportEntry._ID + "=?";
+        String[] value = {String.valueOf(id)};
         SQLiteDatabase db = this.getWritableDatabase();
-        db.rawQuery(updateQuery, null);
-        db.close();
+        db.update(Contract.ReportEntry.TABLE_NAME, values, where, value);
         return newPoints;
     }
 
     public int downvoteReport(int id, int oldpoints) {
         int newPoints = oldpoints - 1;
-        String updateQuery = "UPDATE " + Contract.ReportEntry.TABLE_NAME + " SET " + Contract.ReportEntry.COLUMN_NAME_POINTS + " = " + newPoints;
+        ContentValues values = new ContentValues();
+        values.put(Contract.ReportEntry.COLUMN_NAME_POINTS, String.valueOf(newPoints));
+        String where = Contract.ReportEntry._ID + "=?";
+        String[] value = {String.valueOf(id)};
         SQLiteDatabase db = this.getWritableDatabase();
-        db.rawQuery(updateQuery, null);
-        db.close();
+        db.update(Contract.ReportEntry.TABLE_NAME, values, where, value);
         return newPoints;
     }
 
     public int upvoteComment(int id, int oldpoints) {
         int newPoints = oldpoints + 1;
-        String updateQuery = "UPDATE " + Contract.CommentEntry.TABLE_NAME + " SET " + Contract.CommentEntry.COLUMN_NAME_POINTS + " = " + newPoints;
+        ContentValues values = new ContentValues();
+        values.put(Contract.CommentEntry.COLUMN_NAME_POINTS, String.valueOf(newPoints));
+        String where = Contract.CommentEntry._ID + "=?";
+        String[] value = {String.valueOf(id)};
         SQLiteDatabase db = this.getWritableDatabase();
-        db.rawQuery(updateQuery, null);
-        db.close();
+        db.update(Contract.CommentEntry.TABLE_NAME, values, where, value);
         return newPoints;
     }
 
     public int downvoteComment(int id, int oldpoints) {
         int newPoints = oldpoints - 1;
-        String updateQuery = "UPDATE " + Contract.CommentEntry.TABLE_NAME + " SET " + Contract.CommentEntry.COLUMN_NAME_POINTS + " = " + newPoints;
+        ContentValues values = new ContentValues();
+        values.put(Contract.CommentEntry.COLUMN_NAME_POINTS, String.valueOf(newPoints));
+        String where = Contract.CommentEntry._ID + "=?";
+        String[] value = {String.valueOf(id)};
         SQLiteDatabase db = this.getWritableDatabase();
-        db.rawQuery(updateQuery, null);
-        db.close();
+        db.update(Contract.CommentEntry.TABLE_NAME, values, where, value);
         return newPoints;
     }
 
