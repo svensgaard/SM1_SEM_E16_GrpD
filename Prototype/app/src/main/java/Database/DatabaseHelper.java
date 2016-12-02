@@ -192,31 +192,50 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return newPoints;
     }
 
+    public int upvoteComment(int id, int oldpoints) {
+        int newPoints = oldpoints + 1;
+        String updateQuery = "UPDATE " + Contract.CommentEntry.TABLE_NAME + " SET " + Contract.CommentEntry.COLUMN_NAME_POINTS + " = " + newPoints;
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.rawQuery(updateQuery, null);
+        db.close();
+        return newPoints;
+    }
+
+    public int downvoteComment(int id, int oldpoints) {
+        int newPoints = oldpoints - 1;
+        String updateQuery = "UPDATE " + Contract.CommentEntry.TABLE_NAME + " SET " + Contract.CommentEntry.COLUMN_NAME_POINTS + " = " + newPoints;
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.rawQuery(updateQuery, null);
+        db.close();
+        return newPoints;
+    }
+
     public ArrayList<CommentWrapper> getComments(int reportID) {
         String selectQuery = "SELECT * FROM " + Contract.CommentEntry.TABLE_NAME + " WHERE "+ Contract.CommentEntry.COLUMN_NAME_REPORT_FK +" = '" + reportID + "'";
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
         ArrayList<CommentWrapper> comments = new ArrayList<>();
+
         if(cursor.moveToFirst()) {
-            int id = cursor.getInt(cursor.getColumnIndex(Contract.CommentEntry._ID));
-            String text = cursor.getString(cursor.getColumnIndex(Contract.CommentEntry.COLUMN_NAME_TEXT));
-            Bitmap image = null;
-            if(!cursor.isNull(cursor.getColumnIndex(Contract.CommentEntry.COLUMN_NAME_IMAGE))) {
-                image = ImageUtils.getByteArrayAsBitmap(cursor.getBlob(cursor.getColumnIndex(Contract.CommentEntry.COLUMN_NAME_IMAGE)));
-            }
-            int points = cursor.getInt(cursor.getColumnIndex(Contract.CommentEntry.COLUMN_NAME_POINTS));
+            do {
+                int id = cursor.getInt(cursor.getColumnIndex(Contract.CommentEntry._ID));
+                String text = cursor.getString(cursor.getColumnIndex(Contract.CommentEntry.COLUMN_NAME_TEXT));
+                Bitmap image = null;
+                if(!cursor.isNull(cursor.getColumnIndex(Contract.CommentEntry.COLUMN_NAME_IMAGE))) {
+                    image = ImageUtils.getByteArrayAsBitmap(cursor.getBlob(cursor.getColumnIndex(Contract.CommentEntry.COLUMN_NAME_IMAGE)));
+                }
+                int points = cursor.getInt(cursor.getColumnIndex(Contract.CommentEntry.COLUMN_NAME_POINTS));
 
-            CommentWrapper comment = null;
-            if(image != null) {
-                comment = new CommentWrapper(id, text, image, points, reportID);
-            } else {
-                comment = new CommentWrapper(id, text, points, reportID);
-            }
-            comments.add(comment);
-
+                CommentWrapper comment = null;
+                if(image != null) {
+                    comment = new CommentWrapper(id, text, image, points, reportID);
+                } else {
+                    comment = new CommentWrapper(id, text, points, reportID);
+                }
+                comments.add(comment);
+            } while (cursor.moveToNext());
         }
-        db.close();
         return comments;
     }
 

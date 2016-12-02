@@ -19,6 +19,7 @@ import java.util.ArrayList;
 
 import Database.Contract;
 import Database.DatabaseHelper;
+import Utitlities.ArrayAdapterSizeUtil;
 import Utitlities.ImageUtils;
 import Wrappers.CommentAdapter;
 import Wrappers.CommentWrapper;
@@ -108,14 +109,14 @@ public class ReportFragment extends Fragment {
         DatabaseHelper dbHelper = new DatabaseHelper(getActivity());
         //Get comments and cast arraylist to array
         ArrayList<CommentWrapper> commentWrapperArrayList = dbHelper.getComments(report.getId());
+
         CommentWrapper[] comments = new CommentWrapper[commentWrapperArrayList.size()];
         comments = commentWrapperArrayList.toArray(comments);
-
         //Set arrayAdapter for listview
         CommentAdapter commentAdapter = new CommentAdapter(getActivity(), R.layout.comment_item, comments);
         ListView commentListview = (ListView) mainView.findViewById(R.id.arrayAdapterListView);
         commentListview.setAdapter(commentAdapter);
-
+        ArrayAdapterSizeUtil.getListViewSize(commentListview);
         return mainView;
     }
 
