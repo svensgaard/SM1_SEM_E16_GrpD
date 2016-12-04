@@ -21,6 +21,13 @@ public class CommentWrapper {
         this.report_fk = report_fk;
     }
 
+    public CommentWrapper(int id, String text, int points, int report_fk) {
+        this.id = id;
+        this.text = text;
+        this.points = points;
+        this.report_fk = report_fk;
+    }
+
     public int getId() {
         return id;
     }

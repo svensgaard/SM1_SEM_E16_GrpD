@@ -39,6 +39,7 @@ public class Geofencer implements GoogleApiClient.ConnectionCallbacks, GoogleApi
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .build();
+        this.context = context;
     }
 
     public void disconnect(){
@@ -54,20 +55,24 @@ public class Geofencer implements GoogleApiClient.ConnectionCallbacks, GoogleApi
     public void startLocationMonitoring() {
         Log.d(TAG, "App is now monitoring for geofences");
         //This is where we should implement conditions to optimize battery lifetime
-        try {
-            final LocationRequest locationRequest = LocationRequest.create()
-                    .setInterval(10000)
-                    .setFastestInterval(5000)
-                    //.setNumUpdates(5)
-                    .setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
-            LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, new LocationListener() {
-                @Override
-                public void onLocationChanged(Location location) {
-                    Log.d(TAG, "Location update lat/long " + location.getLatitude() + " " + location.getLongitude());
-                }
-            });
-        } catch (SecurityException e) {
-            Log.d(TAG, "SecurityException - " + e.getMessage());
+        if(!googleApiClient.isConnected()) {
+            Log.d(TAG, "Google API is not connected");
+        } else {
+            try {
+                final LocationRequest locationRequest = LocationRequest.create()
+                        .setInterval(10000)
+                        .setFastestInterval(5000)
+                                //.setNumUpdates(5)
+                        .setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+                LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, new LocationListener() {
+                    @Override
+                    public void onLocationChanged(Location location) {
+                        Log.d(TAG, "Location update lat/long " + location.getLatitude() + " " + location.getLongitude());
+                    }
+                });
+            } catch (SecurityException e) {
+                Log.d(TAG, "SecurityException - " + e.getMessage());
+            }
         }
     }
 
