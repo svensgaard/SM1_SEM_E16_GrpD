@@ -4,4 +4,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorDefaultButton">#39cc14</color>
+    <color name="colorUpvoteSelected">#f4b042</color>
+    <color name="colorDownvoteSelected">#4286f4</color>
+
 </resources>

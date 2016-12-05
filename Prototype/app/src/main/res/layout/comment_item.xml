@@ -38,6 +38,7 @@
             android:text="Downvote"
             android:id="@+id/downvoteCommentButton"
             android:layout_marginLeft="5dp"
+            android:backgroundTint="@color/colorDefaultButton"
             />
 
         <TextView
@@ -57,6 +58,7 @@
             android:layout_alignParentRight="true"
             android:id="@+id/upvoteCommentButton"
             android:layout_marginRight="5dp"
+            android:backgroundTint="@color/colorDefaultButton"
             />
     </RelativeLayout>
 
