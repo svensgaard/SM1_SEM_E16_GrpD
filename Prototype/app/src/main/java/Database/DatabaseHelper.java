@@ -53,7 +53,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(Contract.ReportEntry.COLUMN_NAME_USERTYPE, reportWrapper.getUsertype());
         values.put(Contract.ReportEntry.COLUMN_NAME_POINTS, reportWrapper.getPoints());
         long id = db.insert(Contract.ReportEntry.TABLE_NAME, null, values);
-        db.close();
         return id;
     }
 
@@ -94,7 +93,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         values.put(Contract.CommentEntry.COLUMN_NAME_REPORT_FK, commentWrapper.getReport_fk());
         long id = db.insert(Contract.CommentEntry.TABLE_NAME, null, values);
-        db.close();
         return id;
     }
 
@@ -122,7 +120,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         );
                 result.add(report);
             } while (cursor.moveToNext());
-            cursor.close();
         }
 
         return result;
@@ -139,9 +136,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             do {
                 result.add(cursor.getInt(0));
             } while (cursor.moveToNext());
-            cursor.close();
         }
-        db.close();
         return result;
     }
 
@@ -167,7 +162,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     cursor.getInt(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_POINTS)));
 
         }
-        db.close();
         if(report != null) {
             return report;
         } else {
@@ -262,6 +256,5 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if(oldVersion < 3) {
 
         }
-        db.close();
     }
 }

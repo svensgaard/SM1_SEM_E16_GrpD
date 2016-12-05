@@ -68,7 +68,7 @@ public class CreateReportFragment extends Fragment {
         Button btn = (Button)view.findViewById(R.id.btn);
         Button btn2 = (Button)view.findViewById(R.id.btn2);
         Button btn3 = (Button)view.findViewById(R.id.btn3);
-        //this.imageView = (ImageView)view.findViewById(R.id.imageView);
+        this.imageView = (ImageView)view.findViewById(R.id.imageView);
 
 
         btn.setOnClickListener(new View.OnClickListener() {
