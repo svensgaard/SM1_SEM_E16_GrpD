@@ -23,6 +23,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -83,24 +84,42 @@ public class CreateReportFragment extends Fragment {
         btn2.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                EditText topic = (EditText)view.findViewById(R.id.textTopic);
-                EditText desc = (EditText)view.findViewById(R.id.textDesc);
-                ImageView img = (ImageView)view.findViewById(R.id.imageView);
-                Bitmap bitImage=((BitmapDrawable)img.getDrawable()).getBitmap();
+                ImageView img = (ImageView) view.findViewById(R.id.imageView);
+                if(img.getDrawable() != null) {
 
-                locationTracker = new FallbackLocationTracker(getActivity().getApplicationContext());
-                location = locationTracker.getLocation();
-                locationTracker.stop();
-                ReportWrapper rw;
-                if(location != null) {
-                    rw = new ReportWrapper(0, topic.getText().toString(),"", desc.getText().toString(), (long) location.getLatitude(),(long) location.getLongitude(), "","","","", bitImage, 0);
+                    EditText topic = (EditText) view.findViewById(R.id.textTopic);
+                    EditText desc = (EditText) view.findViewById(R.id.textDesc);
+
+
+
+                    Bitmap bitImage = ((BitmapDrawable) img.getDrawable()).getBitmap();
+
+                    locationTracker = new FallbackLocationTracker(getActivity().getApplicationContext());
+                    location = locationTracker.getLocation();
+                    locationTracker.stop();
+                    ReportWrapper rw;
+                    if (location != null) {
+                        rw = new ReportWrapper(0, topic.getText().toString(), "", desc.getText().toString(), (long) location.getLatitude(), (long) location.getLongitude(), "", "", "", "", bitImage, 0);
+
+                    } else {
+                        rw = new ReportWrapper(0, topic.getText().toString(), "", desc.getText().toString(), (long) 34, (long) 45, "", "", "", "", bitImage, 0);
+
+                    }
+
+                    DatabaseHelper dbh = new DatabaseHelper(getActivity());
+                    dbh.insertReport(dbh.getWritableDatabase(), rw);
+                    CharSequence text = "Inserted!";
+                    int duration = Toast.LENGTH_SHORT;
+
+                    Toast toast = Toast.makeText(getActivity(), text, duration);
+                    toast.show();
                 } else {
-                    rw = new ReportWrapper(0, topic.getText().toString(),"", desc.getText().toString(), (long) 34,(long) 45, "","","","", bitImage, 0);
+                    CharSequence text = "No image found!";
+                    int duration = Toast.LENGTH_SHORT;
+
+                    Toast toast = Toast.makeText(getActivity(), text, duration);
+                    toast.show();
                 }
-
-                DatabaseHelper dbh = new DatabaseHelper(getActivity());
-                dbh.insertReport(dbh.getWritableDatabase(), rw);
-
             }
 
         });
@@ -121,20 +140,8 @@ public class CreateReportFragment extends Fragment {
             Bitmap photo = (Bitmap) data.getExtras().get("data");
             imageView.setImageBitmap(photo);
         }
-        switch (requestCode) {
-            case SELECT_PHOTO:
-                if (resultCode == Activity.RESULT_OK) {
-                    Uri selectedImage = data.getData();
-                    InputStream imageStream = null;
-                    try {
-                        imageStream = getActivity().getContentResolver().openInputStream(selectedImage);
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                    Bitmap yourSelectedImage = BitmapFactory.decodeStream(imageStream);
-                    imageView.setImageBitmap(yourSelectedImage);// To display selected image in image view
-                }
-        }
     }
+
+
 
 }
