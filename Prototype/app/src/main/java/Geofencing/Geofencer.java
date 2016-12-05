@@ -13,6 +13,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Result;
 import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingRequest;
 import com.google.android.gms.location.LocationListener;
@@ -25,7 +26,7 @@ import Services.GeofenceService;
  * Created by Dan on 15-11-2016.
  */
 
-public class Geofencer implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
+public class Geofencer implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, ResultCallback<Status> {
     private final int GEOFENCE_RADIUS_IN_METERS = 30;
     private static final String TAG = "Geofencer";
     private GoogleApiClient googleApiClient = null;
@@ -34,9 +35,10 @@ public class Geofencer implements GoogleApiClient.ConnectionCallbacks, GoogleApi
     private Context context;
     private boolean isMonitoring = false;
 
-    public Geofencer(){}
+    public Geofencer() {
+    }
 
-    public Geofencer(Context context){
+    public Geofencer(Context context) {
         googleApiClient = new GoogleApiClient.Builder(context)
                 .addApi(LocationServices.API)
                 .addConnectionCallbacks(this)
@@ -45,19 +47,24 @@ public class Geofencer implements GoogleApiClient.ConnectionCallbacks, GoogleApi
         this.context = context;
     }
 
-    public void disconnect(){
+    public void disconnect() {
         Log.d(TAG, "Disconnected GoogleApiClient");
         googleApiClient.disconnect();
     }
 
-    public void reconnect(){
+    public void reconnect() {
         Log.d(TAG, "Reconnected GoogleApiClient");
         googleApiClient.reconnect();
     }
 
     public void startLocationMonitoring() {
         Log.d(TAG, "App is now monitoring for geofences");
+<<<<<<< HEAD
         if(!googleApiClient.isConnected()) {
+=======
+        //This is where we should implement conditions to optimize battery lifetime
+        if (!googleApiClient.isConnected()) {
+>>>>>>> f83821104163af80bc24daaeb005320d0de6796f
             Log.d(TAG, "Google API is not connected");
         } else if(!isMonitoring){
             try {
@@ -101,22 +108,13 @@ public class Geofencer implements GoogleApiClient.ConnectionCallbacks, GoogleApi
             Intent intent = new Intent(context, GeofenceService.class);
             PendingIntent pendingIntent = PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-            if (!googleApiClient.isConnected()){
+            if (!googleApiClient.isConnected()) {
                 Log.d(TAG, "GoogleApiClient is not connected");
             } else {
                 LocationServices.GeofencingApi.addGeofences(googleApiClient, geofenceRequest, pendingIntent)
-                        .setResultCallback(new ResultCallback<Result>(){
-                            @Override
-                            public void onResult(Result result){
-                                if (result.getStatus().isSuccess()) {
-                                    Log.d(TAG, "Successfully added geofence");
-                                } else {
-                                    Log.d(TAG, "Failed to add geofence + " + result.getStatus());
-                                }
-                            }
-                        });
+                        .setResultCallback(this);
             }
-        } catch (SecurityException e){
+        } catch (SecurityException e) {
             Log.d(TAG, "SecurityException - " + e.getMessage());
         }
     }
@@ -133,6 +131,19 @@ public class Geofencer implements GoogleApiClient.ConnectionCallbacks, GoogleApi
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Log.d(TAG, "Failed to connect to GoogleApiClient - " + connectionResult.getErrorMessage());
+        Log.d(TAG, "Failed to connect to GoogleApiClient - " + connectionResult.getErrorCode());
     }
+
+    @Override
+    public void onResult(Status status) {
+
+        if (status.getStatus().isSuccess()) {
+            Log.d(TAG, "Successfully added geofence");
+        } else {
+            Log.d(TAG, "Failed to add geofence + " + status.getStatus());
+        }
+    }
+
 }
+
+

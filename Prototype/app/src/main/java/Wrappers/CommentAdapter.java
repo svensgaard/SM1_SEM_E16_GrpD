@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.w3c.dom.Comment;
@@ -46,6 +47,7 @@ public class CommentAdapter extends ArrayAdapter<CommentWrapper> {
             holder.scoreTextView = (TextView) rowView.findViewById(R.id.scoreTextView);
             holder.upvoteButton = (Button) rowView.findViewById(R.id.upvoteCommentButton);
             holder.downvoteButton = (Button) rowView.findViewById(R.id.downvoteCommentButton);
+            holder.commentImageView = (ImageView) rowView.findViewById(R.id.imageViewComment);
 
 
             rowView.setTag(holder);
@@ -55,6 +57,9 @@ public class CommentAdapter extends ArrayAdapter<CommentWrapper> {
 
         holder.commentTextView.setText(commentWrapper.getText());
         holder.scoreTextView.setText("Score: " + commentWrapper.getPoints());
+        if(commentWrapper.getImage() != null) {
+            holder.commentImageView.setImageBitmap(commentWrapper.getImage());
+        }
         //Set button listeners
         holder.upvoteButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,6 +90,7 @@ public class CommentAdapter extends ArrayAdapter<CommentWrapper> {
     static class CommentHolder {
         TextView commentTextView;
         TextView scoreTextView;
+        ImageView commentImageView;
         Button upvoteButton;
         Button downvoteButton;
     }
