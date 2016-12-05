@@ -28,8 +28,11 @@ import Services.GeofenceService;
 public class Geofencer implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
     private final int GEOFENCE_RADIUS_IN_METERS = 30;
     private static final String TAG = "Geofencer";
-    public GoogleApiClient googleApiClient = null;
+    private GoogleApiClient googleApiClient = null;
+    private LocationRequest locationRequest;
+    private LocationListener locationListener;
     private Context context;
+    private boolean isMonitoring = false;
 
     public Geofencer(){}
 
@@ -54,26 +57,27 @@ public class Geofencer implements GoogleApiClient.ConnectionCallbacks, GoogleApi
 
     public void startLocationMonitoring() {
         Log.d(TAG, "App is now monitoring for geofences");
-        //This is where we should implement conditions to optimize battery lifetime
         if(!googleApiClient.isConnected()) {
             Log.d(TAG, "Google API is not connected");
-        } else {
+        } else if(!isMonitoring){
             try {
-                final LocationRequest locationRequest = LocationRequest.create()
+                 locationRequest = LocationRequest.create()
                         .setInterval(10000)
                         .setFastestInterval(5000)
                                 //.setNumUpdates(5)
                         .setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
-                LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, new LocationListener() {
-                    @Override
-                    public void onLocationChanged(Location location) {
-                        Log.d(TAG, "Location update lat/long " + location.getLatitude() + " " + location.getLongitude());
-                    }
-                });
+                LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, locationListener);
+                isMonitoring = true;
             } catch (SecurityException e) {
                 Log.d(TAG, "SecurityException - " + e.getMessage());
             }
         }
+    }
+
+    public void stopLocationMonitoring() {
+        LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient,locationListener);
+        Log.d(TAG, "App is no longer monitoring for geofences");
+        isMonitoring = false;
     }
 
     public void createGeofence(String ID, long latitude, long longitude) {
