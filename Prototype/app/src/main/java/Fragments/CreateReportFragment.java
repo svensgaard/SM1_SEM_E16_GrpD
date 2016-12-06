@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.net.Uri;
@@ -14,14 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -139,6 +132,20 @@ public class CreateReportFragment extends Fragment {
         if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
             Bitmap photo = (Bitmap) data.getExtras().get("data");
             imageView.setImageBitmap(photo);
+        }
+        switch (requestCode) {
+            case SELECT_PHOTO:
+                if (resultCode == Activity.RESULT_OK) {
+                    Uri selectedImage = data.getData();
+                    InputStream imageStream = null;
+                    try {
+                        imageStream = getActivity().getContentResolver().openInputStream(selectedImage);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    Bitmap yourSelectedImage = BitmapFactory.decodeStream(imageStream);
+                    imageView.setImageBitmap(yourSelectedImage);// To display selected image in image view
+                }
         }
     }
 
