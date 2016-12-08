@@ -7,6 +7,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:maxHeight="250dp"
+            android:layout_marginTop="30dp"
+            android:id="@+id/imageViewComment"
+            />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -15,11 +23,6 @@
             android:gravity="center_horizontal"
             android:id="@+id/commentTextView" />
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:id="@+id/imageViewComment"
-            />
         <View
             android:layout_width="fill_parent"
             android:layout_height="0.2dp"
@@ -38,10 +41,12 @@
             android:text="Downvote"
             android:id="@+id/downvoteCommentButton"
             android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="15dp"
             android:backgroundTint="@color/colorDefaultButton"
             />
 
-        <TextView
+        <!--<TextView
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:text="Score: 0"
@@ -49,6 +54,19 @@
             android:layout_toRightOf="@+id/downvoteCommentButton"
             android:layout_marginLeft="65dp"
             android:id="@+id/scoreTextView"
+            />-->
+
+        <Button
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:clickable="false"
+            android:id="@+id/scoreButton"
+            android:layout_toRightOf="@+id/downvoteCommentButton"
+            android:layout_marginLeft="65dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="15dp"
+            android:backgroundTint="@color/colorDefaultButton"
             />
 
         <Button
@@ -58,6 +76,8 @@
             android:layout_alignParentRight="true"
             android:id="@+id/upvoteCommentButton"
             android:layout_marginRight="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="15dp"
             android:backgroundTint="@color/colorDefaultButton"
             />
     </RelativeLayout>

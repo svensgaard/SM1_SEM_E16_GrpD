@@ -68,8 +68,13 @@ public class ReportFragment extends Fragment {
         TextView descriptionTextView = (TextView) mainView.findViewById(R.id.descriptionTextView);
         ImageView imageView = (ImageView) mainView.findViewById(R.id.imageView);
         Button upvoteBtn = (Button) mainView.findViewById(R.id.upvoteButton);
+        upvoteBtn.setBackgroundResource(R.color.colorDefaultButton);
         Button downvoteBtn = (Button) mainView.findViewById(R.id.downvoteButton);
+        downvoteBtn.setBackgroundResource(R.color.colorDefaultButton);
         Button commentBtn = (Button) mainView.findViewById(R.id.addCommentButton);
+        commentBtn.setBackgroundResource(R.color.colorDefaultButton);
+        Button scoreBtn = (Button) mainView.findViewById(R.id.scoreButton);
+        scoreBtn.setBackgroundResource(R.color.colorDefaultButton);
 
         //Fill views
         emneTextView.setText(report.getEmne());

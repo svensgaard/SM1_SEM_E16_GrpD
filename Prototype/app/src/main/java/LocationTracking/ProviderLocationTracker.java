@@ -52,7 +52,7 @@ public class ProviderLocationTracker implements LocationListener, LocationTracke
         //The provider is on, so start getting updates.  Update current location
         isRunning = true;
         lm.requestLocationUpdates(provider, MIN_UPDATE_TIME, MIN_UPDATE_DISTANCE, this);
-        lastLocation = null;
+        lastLocation = lm.getLastKnownLocation(provider);
         lastTime = 0;
         return;
     }
@@ -90,13 +90,17 @@ public class ProviderLocationTracker implements LocationListener, LocationTracke
     }
 
     public Location getLocation(){
-        if(lastLocation == null){
+        /*if(lastLocation == null){
             return null;
         }
         if(System.currentTimeMillis() - lastTime > 5 * MIN_UPDATE_TIME){
             return null; //stale
-        }
-        return lastLocation;
+        }*/
+
+        if (lastLocation != null)
+            return lastLocation;
+
+        return lm.getLastKnownLocation(provider);
     }
 
     public Location getPossiblyStaleLocation(){

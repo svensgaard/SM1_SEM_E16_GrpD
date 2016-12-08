@@ -13,6 +13,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="450dp"
+            android:layout_marginTop="5dp"
             android:id="@+id/imageView"
              />
 
@@ -44,29 +45,53 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Downvote"
+                android:backgroundTint="@color/colorDefaultButton"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="15dp"
                 android:id="@+id/downvoteButton"
                 />
+
+            <Button
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:backgroundTint="@color/colorDefaultButton"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="28dp"
+                android:clickable="false"
+                android:layout_marginBottom="15dp"
+                android:id="@+id/scoreButton"
+                />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorDefaultButton"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="15dp"
+                android:text="UpVote"
+                android:id="@+id/upvoteButton"
+                />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content">
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Add comment"
+                android:backgroundTint="@color/colorDefaultButton"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="15dp"
                 android:id="@+id/addCommentButton"
                 />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="UpVote"
-                android:id="@+id/upvoteButton"
-                />
-        </LinearLayout>
+        </RelativeLayout>
         <ListView
             android:id="@+id/arrayAdapterListView"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" />
     </LinearLayout>
-
-
 
 </ScrollView>

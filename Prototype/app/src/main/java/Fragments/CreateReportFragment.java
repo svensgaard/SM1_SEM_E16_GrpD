@@ -29,6 +29,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 import Database.DatabaseHelper;
+import Geofencing.Geofencer;
 import Wrappers.ReportWrapper;
 import LocationTracking.FallbackLocationTracker;
 import LocationTracking.LocationTracker;
@@ -67,8 +68,11 @@ public class CreateReportFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_create_report, container, false);
 
         Button btn = (Button)view.findViewById(R.id.btn);
+        btn.setBackgroundResource(R.color.colorDefaultButton);
         Button btn2 = (Button)view.findViewById(R.id.btn2);
+        btn2.setBackgroundResource(R.color.colorDefaultButton);
         Button btn3 = (Button)view.findViewById(R.id.btn3);
+        btn3.setBackgroundResource(R.color.colorDefaultButton);
         this.imageView = (ImageView)view.findViewById(R.id.imageView);
 
 
@@ -95,20 +99,20 @@ public class CreateReportFragment extends Fragment {
                     Bitmap bitImage = ((BitmapDrawable) img.getDrawable()).getBitmap();
 
                     locationTracker = new FallbackLocationTracker(getActivity().getApplicationContext());
+                    locationTracker.start();
                     location = locationTracker.getLocation();
                     locationTracker.stop();
                     ReportWrapper rw;
                     if (location != null) {
-                        rw = new ReportWrapper(0, topic.getText().toString(), "", desc.getText().toString(), (long) location.getLatitude(), (long) location.getLongitude(), "", "", "", "", bitImage, 0);
-
+                        rw = new ReportWrapper(0, topic.getText().toString(), "", desc.getText().toString(), location.getLatitude(), location.getLongitude(), "", "", "", "", bitImage, 0);
                     } else {
-                        rw = new ReportWrapper(0, topic.getText().toString(), "", desc.getText().toString(), (long) 34, (long) 45, "", "", "", "", bitImage, 0);
-
+                        rw = new ReportWrapper(0, topic.getText().toString(), "", desc.getText().toString(), (double) 34, (double) 45, "", "", "", "", bitImage, 0);
                     }
 
                     DatabaseHelper dbh = new DatabaseHelper(getActivity());
                     dbh.insertReport(dbh.getWritableDatabase(), rw);
-                    CharSequence text = "Inserted!";
+
+                    CharSequence text = "Report Created!";
                     int duration = Toast.LENGTH_SHORT;
 
                     Toast toast = Toast.makeText(getActivity(), text, duration);

@@ -12,8 +12,8 @@ public class ReportWrapper {
     private String element;
     private String description;
     private Bitmap image;
-    private Long longitude;
-    private Long latitude;
+    private Double longitude;
+    private Double latitude;
     private String timestamp;
     private String oprindelse;
     private String near_address;
@@ -21,7 +21,7 @@ public class ReportWrapper {
     private Integer points;
 
     /*Constructor wihtout image*/
-    public ReportWrapper(int id, String emne, String element, String description, Long longitude, Long latitude, String timestamp, String oprindelse, String near_address, String usertype, int points) {
+    public ReportWrapper(int id, String emne, String element, String description, Double longitude, Double latitude, String timestamp, String oprindelse, String near_address, String usertype, int points) {
         this.id = id;
         this.emne = emne;
         this.element = element;
@@ -35,7 +35,7 @@ public class ReportWrapper {
         this.points = points;
     }
     /*Constructor with image */
-    public ReportWrapper(int id, String emne, String element, String description, Long longitude, Long latitude, String timestamp, String oprindelse, String near_address, String usertype, Bitmap image, int points) {
+    public ReportWrapper(int id, String emne, String element, String description, Double longitude, Double latitude, String timestamp, String oprindelse, String near_address, String usertype, Bitmap image, int points) {
         this.id = id;
         this.emne = emne;
         this.element = element;
@@ -90,19 +90,19 @@ public class ReportWrapper {
         this.image = image;
     }
 
-    public Long getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(Long longitude) {
+    public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
 
-    public Long getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(Long latitude) {
+    public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 
@@ -147,6 +147,6 @@ public class ReportWrapper {
     }
 
     public static ReportWrapper getDummyReport() {
-        return new ReportWrapper(1, "Emne", "Element", "Description", new Long(34), new Long(45), "2010-05-28T15:36:56.200", "Oprindelse", "Campusvej 55 5230 Odense M", "Bruger", 10);
+        return new ReportWrapper(1, "Emne", "Element", "Description", new Double(34), new Double(45), "2010-05-28T15:36:56.200", "Oprindelse", "Campusvej 55 5230 Odense M", "Bruger", 10);
     }
 }

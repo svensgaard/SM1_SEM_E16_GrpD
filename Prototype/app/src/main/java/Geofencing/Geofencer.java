@@ -44,7 +44,14 @@ public class Geofencer implements GoogleApiClient.ConnectionCallbacks, GoogleApi
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .build();
+        googleApiClient.connect();
         this.context = context;
+        locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+
+            }
+        };
     }
 
     public void disconnect() {
@@ -54,19 +61,16 @@ public class Geofencer implements GoogleApiClient.ConnectionCallbacks, GoogleApi
 
     public void reconnect() {
         Log.d(TAG, "Reconnected GoogleApiClient");
+
         googleApiClient.reconnect();
     }
 
     public void startLocationMonitoring() {
-        Log.d(TAG, "App is now monitoring for geofences");
-<<<<<<< HEAD
         if(!googleApiClient.isConnected()) {
-=======
         //This is where we should implement conditions to optimize battery lifetime
-        if (!googleApiClient.isConnected()) {
->>>>>>> f83821104163af80bc24daaeb005320d0de6796f
             Log.d(TAG, "Google API is not connected");
         } else if(!isMonitoring){
+            Log.d(TAG, "App is now monitoring for geofences");
             try {
                  locationRequest = LocationRequest.create()
                         .setInterval(10000)
@@ -82,12 +86,14 @@ public class Geofencer implements GoogleApiClient.ConnectionCallbacks, GoogleApi
     }
 
     public void stopLocationMonitoring() {
-        LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient,locationListener);
-        Log.d(TAG, "App is no longer monitoring for geofences");
-        isMonitoring = false;
+        if (googleApiClient.isConnected()) {
+            LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient,locationListener);
+            Log.d(TAG, "App is no longer monitoring for geofences");
+            isMonitoring = false;
+        }
     }
 
-    public void createGeofence(String ID, long latitude, long longitude) {
+    public void createGeofence(String ID, double latitude, double longitude) {
         Log.d(TAG, "Geofence create process started");
         try {
             Geofence geofence = new Geofence.Builder()
@@ -113,6 +119,7 @@ public class Geofencer implements GoogleApiClient.ConnectionCallbacks, GoogleApi
             } else {
                 LocationServices.GeofencingApi.addGeofences(googleApiClient, geofenceRequest, pendingIntent)
                         .setResultCallback(this);
+                Log.d(TAG, "Geofence succesfully created");
             }
         } catch (SecurityException e) {
             Log.d(TAG, "SecurityException - " + e.getMessage());
@@ -120,9 +127,7 @@ public class Geofencer implements GoogleApiClient.ConnectionCallbacks, GoogleApi
     }
 
     @Override
-    public void onConnected(@Nullable Bundle bundle) {
-        Log.d(TAG, "Connected to GoogleApiClient");
-    }
+    public void onConnected(@Nullable Bundle bundle) {Log.d(TAG, "Connected to GoogleApiClient");}
 
     @Override
     public void onConnectionSuspended(int i) {
@@ -143,7 +148,4 @@ public class Geofencer implements GoogleApiClient.ConnectionCallbacks, GoogleApi
             Log.d(TAG, "Failed to add geofence + " + status.getStatus());
         }
     }
-
 }
-
-

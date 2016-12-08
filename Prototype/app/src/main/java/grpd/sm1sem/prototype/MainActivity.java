@@ -13,8 +13,10 @@ import android.widget.Button;
 import Database.DatabaseHelper;
 import Fragments.FragmentChangeListener;
 import Fragments.MenuFragment;
+import MovementDetection.MovementDetector;
 
 public class MainActivity extends AppCompatActivity implements FragmentChangeListener {
+    MovementDetector movementDetector;
 
 
 

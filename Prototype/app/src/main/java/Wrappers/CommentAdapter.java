@@ -28,8 +28,6 @@ public class CommentAdapter extends ArrayAdapter<CommentWrapper> {
     CommentWrapper[] data;
     private boolean isDownvoted = false;
     private boolean isUpvoted = false;
-    private Button upvoteButton;
-    private Button downvoteButton;
 
     public CommentAdapter (Context context, int layoutResourceId, CommentWrapper[] data) {
         super(context, layoutResourceId, data);
@@ -50,7 +48,7 @@ public class CommentAdapter extends ArrayAdapter<CommentWrapper> {
 
             holder = new CommentHolder();
             holder.commentTextView = (TextView) rowView.findViewById(R.id.commentTextView);
-            holder.scoreTextView = (TextView) rowView.findViewById(R.id.scoreTextView);
+            holder.scoreButton = (Button) rowView.findViewById(R.id.scoreButton);
             holder.upvoteButton = (Button) rowView.findViewById(R.id.upvoteCommentButton);
             holder.downvoteButton = (Button) rowView.findViewById(R.id.downvoteCommentButton);
             holder.commentImageView = (ImageView) rowView.findViewById(R.id.imageViewComment);
@@ -62,19 +60,24 @@ public class CommentAdapter extends ArrayAdapter<CommentWrapper> {
         }
 
         holder.commentTextView.setText(commentWrapper.getText());
-        holder.scoreTextView.setText("Score: " + commentWrapper.getPoints());
+        holder.scoreButton.setText("" + commentWrapper.getPoints());
         if(commentWrapper.getImage() != null) {
             holder.commentImageView.setImageBitmap(commentWrapper.getImage());
         }
         final Button upvoteButton = holder.upvoteButton;
+        upvoteButton.setBackgroundResource(R.color.colorDefaultButton);
         final Button downvoteButton = holder.downvoteButton;
+        downvoteButton.setBackgroundResource(R.color.colorDefaultButton);
+        final Button scoreButton = holder.scoreButton;
+        scoreButton.setBackgroundResource(R.color.colorDefaultButton);
 
         //Set button listeners
         holder.upvoteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DatabaseHelper dbHelper = new DatabaseHelper(context);
-
+                commentWrapper.setPoints(dbHelper.upvoteComment(commentWrapper.getId(), commentWrapper.getPoints()));
+                Log.d(this.toString(), "Upvoted" + String.valueOf(commentWrapper.getPoints()));
                 if (!isDownvoted) {
                     if (!isUpvoted) {
                         commentWrapper.setPoints(dbHelper.upvoteComment(commentWrapper.getId(), commentWrapper.getPoints()));
@@ -120,7 +123,7 @@ public class CommentAdapter extends ArrayAdapter<CommentWrapper> {
 
     static class CommentHolder {
         TextView commentTextView;
-        TextView scoreTextView;
+        Button scoreButton;
         ImageView commentImageView;
         Button upvoteButton;
         Button downvoteButton;

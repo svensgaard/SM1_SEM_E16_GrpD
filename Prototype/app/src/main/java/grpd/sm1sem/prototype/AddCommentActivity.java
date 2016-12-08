@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -42,8 +43,11 @@ public class AddCommentActivity extends AppCompatActivity {
         commentImageView = (ImageView) this.findViewById(R.id.commentImageView);
         commentText = (EditText) this.findViewById(R.id.commentEditText);
         Button takePictureButton = (Button) this.findViewById(R.id.takPictureButton);
+        takePictureButton.setBackgroundResource(R.color.colorDefaultButton);
         Button uploadPictureButton = (Button) this.findViewById(R.id.uploadButton);
+        uploadPictureButton.setBackgroundResource(R.color.colorDefaultButton);
         Button okButton = (Button) this.findViewById(R.id.okButton);
+        okButton.setBackgroundResource(R.color.colorDefaultButton);
 
         //Add button listeners
         assert takePictureButton != null;
@@ -76,6 +80,7 @@ public class AddCommentActivity extends AppCompatActivity {
                     Bitmap commentImage = ((BitmapDrawable)commentImageView.getDrawable()).getBitmap();
                     dbHelper.insertComment(dbHelper.getWritableDatabase() , new CommentWrapper(0, commentText.getText().toString(), commentImage, 0, reportID));
                     finish();
+
                 } else {
                     dbHelper.insertComment(dbHelper.getWritableDatabase() , new CommentWrapper(0, commentText.getText().toString(), 0, reportID));
                     finish();

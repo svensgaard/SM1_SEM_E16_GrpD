@@ -17,6 +17,7 @@
             android:text="@string/create_report_btn"
             android:id="@+id/CreateReportBtn"
             android:gravity="center"
+            android:layout_marginBottom="30dp"
             />
 
         <Button
