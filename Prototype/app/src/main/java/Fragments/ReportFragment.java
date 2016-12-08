@@ -25,6 +25,7 @@ import Wrappers.CommentAdapter;
 import Wrappers.CommentWrapper;
 import Wrappers.ReportWrapper;
 import grpd.sm1sem.prototype.AddCommentActivity;
+import grpd.sm1sem.prototype.EncounteredReportsActivity;
 import grpd.sm1sem.prototype.R;
 
 public class ReportFragment extends Fragment {
@@ -81,6 +82,7 @@ public class ReportFragment extends Fragment {
         elementTextView.setText(report.getElement());
         descriptionTextView.setText(report.getDescription());
         imageView.setImageBitmap(report.getImage());
+        scoreBtn.setText(report.getPoints());
 
         //Set button listeners
         upvoteBtn.setOnClickListener(new View.OnClickListener() {
@@ -89,6 +91,7 @@ public class ReportFragment extends Fragment {
             public void onClick(View v) {
                 DatabaseHelper dbHelper = new DatabaseHelper(getActivity());
                 report.setPoints(dbHelper.upvoteReport(report.getId(), report.getPoints()));
+                ((EncounteredReportsActivity) getActivity()).notiifyChange();
                 Log.d(this.toString(), "Upvoted!");
             }
         });
@@ -98,6 +101,7 @@ public class ReportFragment extends Fragment {
             public void onClick(View v) {
                 DatabaseHelper dbHelper = new DatabaseHelper(getActivity());
                 report.setPoints(dbHelper.downvoteReport(report.getId(), report.getPoints()));
+                ((EncounteredReportsActivity) getActivity()).notiifyChange();
                 Log.d(this.toString(), "Downvoted!");
             }
         });
@@ -108,6 +112,7 @@ public class ReportFragment extends Fragment {
                 Intent startIntent = new Intent(getActivity(), AddCommentActivity.class);
                 startIntent.putExtra(AddCommentActivity.EXTRAS_ID, reportID);
                 startActivity(startIntent);
+                ((EncounteredReportsActivity) getActivity()).notiifyChange();
             }
         });
         //Get comments

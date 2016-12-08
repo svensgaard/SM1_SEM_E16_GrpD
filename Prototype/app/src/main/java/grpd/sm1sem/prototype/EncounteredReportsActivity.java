@@ -36,7 +36,9 @@ public class EncounteredReportsActivity extends FragmentActivity {
         pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager(), this);
         viewPager.setAdapter(pagerAdapter);
     }
-
+    public void notiifyChange() {
+        pagerAdapter.notifyDataSetChanged();
+    }
 
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
         ArrayList<Integer> encounteredReportIDs;
@@ -52,6 +54,10 @@ public class EncounteredReportsActivity extends FragmentActivity {
         @Override
         public Fragment getItem(int position) {
             return ReportFragment.newInstance(encounteredReportIDs.get(position));
+        }
+        @Override
+        public int getItemPosition(Object object) {
+            return POSITION_NONE;
         }
 
         @Override
