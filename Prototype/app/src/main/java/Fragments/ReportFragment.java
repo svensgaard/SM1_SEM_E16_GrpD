@@ -77,8 +77,11 @@ public class ReportFragment extends Fragment {
         downvoteBtn.setBackgroundResource(R.color.colorDefaultButton);
         Button commentBtn = (Button) mainView.findViewById(R.id.addCommentButton);
         commentBtn.setBackgroundResource(R.color.colorDefaultButton);
-        Button scoreBtn = (Button) mainView.findViewById(R.id.scoreButton);
-        scoreBtn.setBackgroundResource(R.color.colorDefaultButton);
+        final Button scoreBtn = (Button) mainView.findViewById(R.id.scoreButton);
+
+        if(report.getPoints() > 0) {
+            upvoteBtn.setBackgroundResource(R.color.colorUpvoteSelected);
+        }
 
         //Fill views
         emneTextView.setText(report.getEmne());
@@ -95,6 +98,7 @@ public class ReportFragment extends Fragment {
             public void onClick(View v) {
                 DatabaseHelper dbHelper = new DatabaseHelper(getActivity());
                 report.setPoints(dbHelper.upvoteReport(report.getId(), report.getPoints()));
+
                 ((EncounteredReportsActivity) getActivity()).notiifyChange();
                 Log.d(this.toString(), "Upvoted!");
             }
@@ -105,6 +109,7 @@ public class ReportFragment extends Fragment {
             public void onClick(View v) {
                 DatabaseHelper dbHelper = new DatabaseHelper(getActivity());
                 report.setPoints(dbHelper.downvoteReport(report.getId(), report.getPoints()));
+
                 ((EncounteredReportsActivity) getActivity()).notiifyChange();
                 Log.d(this.toString(), "Downvoted!");
             }
