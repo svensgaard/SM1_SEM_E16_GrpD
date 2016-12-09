@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import org.w3c.dom.Comment;
 
+import java.util.ArrayList;
+
 import Database.DatabaseHelper;
 import grpd.sm1sem.prototype.R;
 
@@ -25,11 +27,11 @@ public class CommentAdapter extends ArrayAdapter<CommentWrapper> {
 
     Context context;
     int layoutResourceId;
-    CommentWrapper[] data;
+    ArrayList<CommentWrapper> data;
     private boolean isDownvoted = false;
     private boolean isUpvoted = false;
 
-    public CommentAdapter (Context context, int layoutResourceId, CommentWrapper[] data) {
+    public CommentAdapter (Context context, int layoutResourceId, ArrayList<CommentWrapper> data) {
         super(context, layoutResourceId, data);
         this.context = context;
         this.layoutResourceId = layoutResourceId;
@@ -40,7 +42,7 @@ public class CommentAdapter extends ArrayAdapter<CommentWrapper> {
     public View getView(final int position, View convertView, ViewGroup parent) {
         View rowView = convertView;
         CommentHolder holder = null;
-        final CommentWrapper commentWrapper = data[position];
+        final CommentWrapper commentWrapper = data.get(position);
         if (rowView == null) {
 
             LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -117,7 +119,7 @@ public class CommentAdapter extends ArrayAdapter<CommentWrapper> {
     }
     @Override
     public int getCount() {
-        return data == null ? 0 : data.length;
+        return data == null ? 0 : data.size();
     }
 
 

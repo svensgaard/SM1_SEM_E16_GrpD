@@ -1,5 +1,6 @@
 package Fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -31,9 +32,11 @@ import grpd.sm1sem.prototype.R;
 public class ReportFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "reportWrapper";
-
+    public static final int REQUEST_COMMENT = 19823;
     private int reportID;
     private ReportWrapper report;
+    private CommentAdapter commentAdapter;
+    private ListView commentListview;
 
     public ReportFragment() {
         // Required empty public constructor
@@ -68,7 +71,7 @@ public class ReportFragment extends Fragment {
         TextView elementTextView = (TextView) mainView.findViewById(R.id.elementTextView);
         TextView descriptionTextView = (TextView) mainView.findViewById(R.id.descriptionTextView);
         ImageView imageView = (ImageView) mainView.findViewById(R.id.imageView);
-        Button upvoteBtn = (Button) mainView.findViewById(R.id.upvoteButton);
+        final Button upvoteBtn = (Button) mainView.findViewById(R.id.upvoteButton);
         upvoteBtn.setBackgroundResource(R.color.colorDefaultButton);
         Button downvoteBtn = (Button) mainView.findViewById(R.id.downvoteButton);
         downvoteBtn.setBackgroundResource(R.color.colorDefaultButton);
@@ -82,7 +85,8 @@ public class ReportFragment extends Fragment {
         elementTextView.setText(report.getElement());
         descriptionTextView.setText(report.getDescription());
         imageView.setImageBitmap(report.getImage());
-        scoreBtn.setText(report.getPoints());
+
+        scoreBtn.setText(String.valueOf(report.getPoints()));
 
         //Set button listeners
         upvoteBtn.setOnClickListener(new View.OnClickListener() {
@@ -111,8 +115,8 @@ public class ReportFragment extends Fragment {
             public void onClick(View v) {
                 Intent startIntent = new Intent(getActivity(), AddCommentActivity.class);
                 startIntent.putExtra(AddCommentActivity.EXTRAS_ID, reportID);
-                startActivity(startIntent);
-                ((EncounteredReportsActivity) getActivity()).notiifyChange();
+                startActivityForResult(startIntent, REQUEST_COMMENT);
+
             }
         });
         //Get comments
@@ -120,15 +124,30 @@ public class ReportFragment extends Fragment {
         //Get comments and cast arraylist to array
         ArrayList<CommentWrapper> commentWrapperArrayList = dbHelper.getComments(report.getId());
 
-        CommentWrapper[] comments = new CommentWrapper[commentWrapperArrayList.size()];
-        comments = commentWrapperArrayList.toArray(comments);
-        //Set arrayAdapter for listview
-        CommentAdapter commentAdapter = new CommentAdapter(getActivity(), R.layout.comment_item, comments);
-        ListView commentListview = (ListView) mainView.findViewById(R.id.arrayAdapterListView);
+        commentAdapter = new CommentAdapter(getActivity(), R.layout.comment_item, commentWrapperArrayList);
+        commentListview = (ListView) mainView.findViewById(R.id.arrayAdapterListView);
         commentListview.setAdapter(commentAdapter);
         ArrayAdapterSizeUtil.getListViewSize(commentListview);
         return mainView;
     }
 
+    private void updateComments(CommentWrapper commentWrapper) {
+        CommentAdapter adapter = (CommentAdapter) commentListview.getAdapter();
+        adapter.add(commentWrapper);
+        adapter.notifyDataSetChanged();
+        ArrayAdapterSizeUtil.getListViewSize(commentListview);
+    }
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_COMMENT && resultCode == Activity.RESULT_OK) {
+            int commentID = data.getIntExtra("id", 0);
+            Log.d(this.toString(), "Id of comment: " + String.valueOf(commentID));
+            //Get comment
+            DatabaseHelper dbHelper = new DatabaseHelper(getActivity());
+            CommentWrapper commentWrapper = dbHelper.getComment(commentID);
+            if(commentWrapper != null) {
+                updateComments(commentWrapper);
+            }
+        }
+    }
 
 }
