@@ -47,8 +47,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(Contract.ReportEntry.COLUMN_NAME_ELEMENT, reportWrapper.getElement());
         values.put(Contract.ReportEntry.COLUMN_NAME_DESCRIPTION, reportWrapper.getDescription());
         values.put(Contract.ReportEntry.COLUMN_NAME_IMAGE, codec(reportWrapper.getImage(), Bitmap.CompressFormat.JPEG, 30));
-        values.put(Contract.ReportEntry.COLUMN_NAME_LONGITUDE, reportWrapper.getLongitude());
-        values.put(Contract.ReportEntry.COLUMN_NAME_LATITUDE, reportWrapper.getLatitude());
+        values.put(Contract.ReportEntry.COLUMN_NAME_LONGITUDE, reportWrapper.getLongitude().toString());
+        values.put(Contract.ReportEntry.COLUMN_NAME_LATITUDE, reportWrapper.getLatitude().toString());
         values.put(Contract.ReportEntry.COLUMN_NAME_TIMESTAMP, reportWrapper.getTimestamp());
         values.put(Contract.ReportEntry.COLUMN_NAME_OPRINDELSE, reportWrapper.getOprindelse());
         values.put(Contract.ReportEntry.COLUMN_NAME_NEAR_ADDRESS, reportWrapper.getNear_address());
@@ -108,36 +108,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return os.toByteArray();
     }
 
-    public ArrayList<ReportWrapper> getAllReports() {
-        String selectQuery = "SELECT * FROM " + Contract.ReportEntry.TABLE_NAME;
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
-        ArrayList<ReportWrapper> result = new ArrayList<>();
-
-        if(cursor.moveToFirst()) {
-            do {
-                ReportWrapper report = new ReportWrapper(
-                cursor.getInt(0),
-                cursor.getString(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_EMNE)),
-                cursor.getString(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_ELEMENT)),
-                cursor.getString(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_DESCRIPTION)),
-                cursor.getDouble(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_LONGITUDE)),
-                cursor.getDouble(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_LATITUDE)),
-                cursor.getString(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_TIMESTAMP)),
-                cursor.getString(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_OPRINDELSE)),
-                cursor.getString(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_NEAR_ADDRESS)),
-                cursor.getString(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_USERTYPE)),
-                ImageUtils.getByteArrayAsBitmap(cursor.getBlob(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_IMAGE))),
-                cursor.getInt(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_POINTS))
-                        );
-                result.add(report);
-            } while (cursor.moveToNext());
-        }
-
-        return result;
-    }
-
-
     public ArrayList<Integer> getAllIds() {
         String selectQuery = "SELECT " + Contract.ReportEntry._ID + " FROM " + Contract.ReportEntry.TABLE_NAME;
         SQLiteDatabase db = this.getReadableDatabase();
@@ -164,8 +134,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     cursor.getString(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_EMNE)),
                     cursor.getString(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_ELEMENT)),
                     cursor.getString(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_DESCRIPTION)),
-                    cursor.getDouble(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_LONGITUDE)),
-                    cursor.getDouble(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_LATITUDE)),
+                    Double.parseDouble(cursor.getString(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_LONGITUDE))),
+                    Double.parseDouble(cursor.getString(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_LATITUDE))),
                     cursor.getString(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_TIMESTAMP)),
                     cursor.getString(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_OPRINDELSE)),
                     cursor.getString(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_NEAR_ADDRESS)),

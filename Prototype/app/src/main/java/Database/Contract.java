@@ -22,8 +22,8 @@ public final class Contract {
                     ReportEntry.COLUMN_NAME_ELEMENT + TEXT_TYPE + COMMA_SEP +
                     ReportEntry.COLUMN_NAME_DESCRIPTION + TEXT_TYPE + COMMA_SEP +
                     ReportEntry.COLUMN_NAME_IMAGE + BLOB_TYPE + COMMA_SEP +
-                    ReportEntry.COLUMN_NAME_LONGITUDE + REAL_TYPE + COMMA_SEP +
-                    ReportEntry.COLUMN_NAME_LATITUDE + REAL_TYPE + COMMA_SEP +
+                    ReportEntry.COLUMN_NAME_LONGITUDE + TEXT_TYPE + COMMA_SEP +
+                    ReportEntry.COLUMN_NAME_LATITUDE + TEXT_TYPE + COMMA_SEP +
                     ReportEntry.COLUMN_NAME_TIMESTAMP + TEXT_TYPE + COMMA_SEP +
                     ReportEntry.COLUMN_NAME_OPRINDELSE + TEXT_TYPE + COMMA_SEP +
                     ReportEntry.COLUMN_NAME_NEAR_ADDRESS + TEXT_TYPE + COMMA_SEP +
