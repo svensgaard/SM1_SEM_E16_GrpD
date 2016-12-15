@@ -78,11 +78,17 @@ public class AddCommentActivity extends AppCompatActivity {
                 DatabaseHelper dbHelper = new DatabaseHelper(AddCommentActivity.this);
                 if(commentImageView.getDrawable() != null) {
                     Bitmap commentImage = ((BitmapDrawable)commentImageView.getDrawable()).getBitmap();
-                    dbHelper.insertComment(dbHelper.getWritableDatabase() , new CommentWrapper(0, commentText.getText().toString(), commentImage, 0, reportID));
+                    int id = (int) dbHelper.insertComment(dbHelper.getWritableDatabase() , new CommentWrapper(0, commentText.getText().toString(), commentImage, 0, reportID));
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra("id",id);
+                    setResult(Activity.RESULT_OK,returnIntent);
                     finish();
 
                 } else {
-                    dbHelper.insertComment(dbHelper.getWritableDatabase() , new CommentWrapper(0, commentText.getText().toString(), 0, reportID));
+                    int id = (int) dbHelper.insertComment(dbHelper.getWritableDatabase() , new CommentWrapper(0, commentText.getText().toString(), 0, reportID));
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra("id",id);
+                    setResult(Activity.RESULT_OK,returnIntent);
                     finish();
                 }
 

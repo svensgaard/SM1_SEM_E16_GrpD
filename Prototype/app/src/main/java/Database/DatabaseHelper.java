@@ -139,14 +139,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     public ArrayList<Integer> getAllIds() {
-        String selectQuery = "SELECT * FROM " + Contract.ReportEntry.TABLE_NAME;
+        String selectQuery = "SELECT " + Contract.ReportEntry._ID + " FROM " + Contract.ReportEntry.TABLE_NAME;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
         ArrayList<Integer> result = new ArrayList<>();
 
         if(cursor.moveToFirst()) {
             do {
-                result.add(cursor.getInt(0));
+                result.add(cursor.getInt(cursor.getColumnIndex(Contract.ReportEntry._ID)));
             } while (cursor.moveToNext());
         }
         return result;
@@ -254,6 +254,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return comments;
     }
 
+    public CommentWrapper getComment(int commentId) {
+        String selectQuery = "SELECT * FROM " + Contract.CommentEntry.TABLE_NAME + " WHERE "+ Contract.CommentEntry._ID +" = '" + commentId + "'";
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        CommentWrapper comment = null;
+
+        if(cursor.moveToFirst()) {
+                int id = commentId;
+                String text = cursor.getString(cursor.getColumnIndex(Contract.CommentEntry.COLUMN_NAME_TEXT));
+                Bitmap image = null;
+                if(!cursor.isNull(cursor.getColumnIndex(Contract.CommentEntry.COLUMN_NAME_IMAGE))) {
+                    image = ImageUtils.getByteArrayAsBitmap(cursor.getBlob(cursor.getColumnIndex(Contract.CommentEntry.COLUMN_NAME_IMAGE)));
+                }
+                int points = cursor.getInt(cursor.getColumnIndex(Contract.CommentEntry.COLUMN_NAME_POINTS));
+                int reportID = cursor.getInt(cursor.getColumnIndex(Contract.CommentEntry.COLUMN_NAME_REPORT_FK));;
+                if(image != null) {
+                    comment = new CommentWrapper(id, text, image, points, reportID);
+                } else {
+                    comment = new CommentWrapper(id, text, points, reportID);
+                }
+
+        }
+        return comment;
+    }
     /* This method will update the database */
     private void updateDatabase(SQLiteDatabase db, int oldVersion, int newVersion) {
         if(oldVersion < 1) {
