@@ -48,7 +48,7 @@ public class CommentAdapter extends ArrayAdapter<CommentWrapper> {
 
             holder = new CommentHolder();
             holder.commentTextView = (TextView) rowView.findViewById(R.id.commentTextView);
-            holder.scoreButton = (Button) rowView.findViewById(R.id.scoreButton);
+            holder.scoreButtonItem = (Button) rowView.findViewById(R.id.scoreButtonItem);
             holder.upvoteButton = (Button) rowView.findViewById(R.id.upvoteCommentButton);
             holder.downvoteButton = (Button) rowView.findViewById(R.id.downvoteCommentButton);
             holder.commentImageView = (ImageView) rowView.findViewById(R.id.imageViewComment);
@@ -60,7 +60,7 @@ public class CommentAdapter extends ArrayAdapter<CommentWrapper> {
         }
 
         holder.commentTextView.setText(commentWrapper.getText());
-        holder.scoreButton.setText("" + commentWrapper.getPoints());
+        holder.scoreButtonItem.setText("" + commentWrapper.getPoints());
         if(commentWrapper.getImage() != null) {
             holder.commentImageView.setImageBitmap(commentWrapper.getImage());
         }
@@ -68,8 +68,8 @@ public class CommentAdapter extends ArrayAdapter<CommentWrapper> {
         upvoteButton.setBackgroundResource(R.color.colorDefaultButton);
         final Button downvoteButton = holder.downvoteButton;
         downvoteButton.setBackgroundResource(R.color.colorDefaultButton);
-        final Button scoreButton = holder.scoreButton;
-        scoreButton.setBackgroundResource(R.color.colorDefaultButton);
+        final Button scoreButtonItem = holder.scoreButtonItem;
+        scoreButtonItem.setBackgroundResource(R.color.colorDefaultButton);
 
         //Set button listeners
         holder.upvoteButton.setOnClickListener(new View.OnClickListener() {
@@ -123,7 +123,7 @@ public class CommentAdapter extends ArrayAdapter<CommentWrapper> {
 
     static class CommentHolder {
         TextView commentTextView;
-        Button scoreButton;
+        Button scoreButtonItem;
         ImageView commentImageView;
         Button upvoteButton;
         Button downvoteButton;

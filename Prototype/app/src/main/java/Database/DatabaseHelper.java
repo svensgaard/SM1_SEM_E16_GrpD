@@ -46,7 +46,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(Contract.ReportEntry.COLUMN_NAME_EMNE, reportWrapper.getEmne());
         values.put(Contract.ReportEntry.COLUMN_NAME_ELEMENT, reportWrapper.getElement());
         values.put(Contract.ReportEntry.COLUMN_NAME_DESCRIPTION, reportWrapper.getDescription());
-        values.put(Contract.ReportEntry.COLUMN_NAME_IMAGE, ImageUtils.getBitmapAsByteArray(reportWrapper.getImage()));
+        values.put(Contract.ReportEntry.COLUMN_NAME_IMAGE, codec(reportWrapper.getImage(), Bitmap.CompressFormat.JPEG, 30));
         values.put(Contract.ReportEntry.COLUMN_NAME_LONGITUDE, reportWrapper.getLongitude());
         values.put(Contract.ReportEntry.COLUMN_NAME_LATITUDE, reportWrapper.getLatitude());
         values.put(Contract.ReportEntry.COLUMN_NAME_TIMESTAMP, reportWrapper.getTimestamp());

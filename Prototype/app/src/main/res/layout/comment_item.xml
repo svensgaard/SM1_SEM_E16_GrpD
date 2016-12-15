@@ -61,7 +61,7 @@
             android:layout_height="wrap_content"
             android:text="0"
             android:clickable="false"
-            android:id="@+id/scoreButton"
+            android:id="@+id/scoreButtonItem"
             android:layout_toRightOf="@+id/downvoteCommentButton"
             android:layout_marginLeft="65dp"
             android:layout_marginTop="10dp"

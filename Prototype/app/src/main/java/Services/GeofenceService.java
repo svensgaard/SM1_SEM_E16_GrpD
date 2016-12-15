@@ -14,6 +14,7 @@ import com.google.android.gms.location.GeofencingEvent;
 import java.util.List;
 
 import grpd.sm1sem.prototype.EncounteredReportsActivity;
+import grpd.sm1sem.prototype.R;
 
 /**
  * Created by Dan on 15-11-2016.
@@ -51,7 +52,7 @@ public class GeofenceService extends IntentService {
 
     private void NotifyUser(String requestId) {
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
-                //.setSmallIcon(R.Drawable.Icon) // notification icon
+                .setSmallIcon(R.drawable.notification_icon) // notification icon
                 .setContentTitle("Nearby Report Encountered!") // title
                 .setContentText("Entered geofence with id: " + requestId) // body message
                 .setAutoCancel(true); // clear notification when clicked

@@ -2,6 +2,8 @@ package Fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -10,6 +12,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +30,7 @@ import Wrappers.ReportWrapper;
 import LocationTracking.FallbackLocationTracker;
 import LocationTracking.LocationTracker;
 import grpd.sm1sem.prototype.CameraActivity;
+import grpd.sm1sem.prototype.EncounteredReportsActivity;
 import grpd.sm1sem.prototype.MainActivity;
 import grpd.sm1sem.prototype.R;
 
@@ -86,8 +90,6 @@ public class CreateReportFragment extends Fragment {
 
                     EditText topic = (EditText) view.findViewById(R.id.textTopic);
                     EditText desc = (EditText) view.findViewById(R.id.textDesc);
-
-
 
                     Bitmap bitImage = ((BitmapDrawable) img.getDrawable()).getBitmap();
 
