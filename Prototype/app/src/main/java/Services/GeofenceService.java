@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingEvent;
@@ -41,6 +42,12 @@ public class GeofenceService extends IntentService {
             if (transition == Geofence.GEOFENCE_TRANSITION_ENTER){
                 //LOGIC FOR WHEN USER ENTERS GEOFENCE HERE
                 Log.d(TAG, "Entering Geofence - " + requestId);
+
+                CharSequence text = "Geofence entered";
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(getApplicationContext(), text, duration);
+                toast.show();
 
                 NotifyUser(requestId);
 

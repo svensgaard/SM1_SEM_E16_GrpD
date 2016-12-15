@@ -8,6 +8,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.CountDownTimer;
 import android.util.Log;
+import android.widget.Toast;
 
 import Geofencing.Geofencer;
 
@@ -26,13 +27,16 @@ public class MovementDetector implements SensorEventListener{
     private float mAccel;
     private float mAccelCurrent;
     private float mAccelLast;
-    private static final double DETECTION_THRESHOLD = 1;
+    private static final double DETECTION_THRESHOLD = 3;
     private int movementCounter = 0;
+    private Context context;
 
     private static final String TAG = "MovementDetector";
     private static final int COUNTDOWNTIME_IN_MILLISECONDS = 60000;
 
-    public MovementDetector(Context context, Geofencer geofencer){
+    public MovementDetector(Context context){
+        this.context = context;
+        geofencer = new Geofencer(context);
         sensorManager = (SensorManager)context.getSystemService(context.SENSOR_SERVICE);
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mAccel = 0.00f;
@@ -65,6 +69,12 @@ public class MovementDetector implements SensorEventListener{
                     Log.d(TAG, "User is moving!");
                     geofencer.startLocationMonitoring();
 
+                    CharSequence text = "Movement detected";
+                    int duration = Toast.LENGTH_SHORT;
+
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+
                     if (cTimer != null)
                         cTimer.cancel();
                     startTimer();
@@ -86,6 +96,11 @@ public class MovementDetector implements SensorEventListener{
             public void onFinish() {
                 Log.d(TAG, "User is idle - Shutting off geofence monitoring");
                 geofencer.stopLocationMonitoring();
+                CharSequence text = "User stationary";
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
             }
         };
         cTimer.start();

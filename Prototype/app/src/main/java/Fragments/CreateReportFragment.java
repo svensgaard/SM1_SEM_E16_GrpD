@@ -107,7 +107,7 @@ public class CreateReportFragment extends Fragment {
                     DatabaseHelper dbh = new DatabaseHelper(getActivity());
                     dbh.insertReport(dbh.getWritableDatabase(), rw);
 
-                    CharSequence text = "Report Created!";
+                    CharSequence text = "Report Created! lat: " + location.getLatitude() + " long: " + location.getLongitude();
                     int duration = Toast.LENGTH_SHORT;
 
                     Toast toast = Toast.makeText(getActivity(), text, duration);

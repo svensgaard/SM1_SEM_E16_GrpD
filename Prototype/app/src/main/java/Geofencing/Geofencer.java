@@ -20,6 +20,10 @@ import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
+import java.util.List;
+
+import Database.DatabaseHelper;
+import Models.GeoReport;
 import Services.GeofenceService;
 
 /**
@@ -34,9 +38,6 @@ public class Geofencer implements GoogleApiClient.ConnectionCallbacks, GoogleApi
     private LocationListener locationListener;
     private Context context;
     private boolean isMonitoring = false;
-
-    public Geofencer() {
-    }
 
     public Geofencer(Context context) {
         googleApiClient = new GoogleApiClient.Builder(context)
@@ -66,6 +67,14 @@ public class Geofencer implements GoogleApiClient.ConnectionCallbacks, GoogleApi
     }
 
     public void startLocationMonitoring() {
+        DatabaseHelper dbh = new DatabaseHelper(context);
+        List<GeoReport> geoReportList = dbh.getAllGeoReports();
+
+        for (GeoReport report : geoReportList){
+            createGeofence(report.getID(), report.getLatitude(), report.getLongitude());
+            Log.d(TAG, "Created geofence with id " + report.getID() + " latitude " + report.getLatitude() + " longitude " + report.getLongitude());
+        }
+
         if(!googleApiClient.isConnected()) {
         //This is where we should implement conditions to optimize battery lifetime
             Log.d(TAG, "Google API is not connected");
@@ -73,8 +82,8 @@ public class Geofencer implements GoogleApiClient.ConnectionCallbacks, GoogleApi
             Log.d(TAG, "App is now monitoring for geofences");
             try {
                  locationRequest = LocationRequest.create()
-                        .setInterval(10000)
-                        .setFastestInterval(5000)
+                        .setInterval(5000)
+                        .setFastestInterval(2500)
                                 //.setNumUpdates(5)
                         .setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
                 LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, locationListener);

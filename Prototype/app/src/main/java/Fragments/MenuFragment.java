@@ -47,7 +47,6 @@ public class MenuFragment extends Fragment implements View.OnClickListener, Sens
     View view;
     Button createReportButton;
     Button encReportsButton;
-    Geofencer geofencer;
     GoogleApiClient googleApiClient;
     MovementDetector movementDetector;
     private final static String TAG = "MenuFragment";
@@ -60,12 +59,10 @@ public class MenuFragment extends Fragment implements View.OnClickListener, Sens
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        InitializeGeofencing();
-
-        movementDetector = new MovementDetector(getActivity(), geofencer);
+        movementDetector = new MovementDetector(getActivity());
     }
 
-    private void InitializeGeofencing() {
+    /*private void InitializeGeofencing() {
         DatabaseHelper dbh = new DatabaseHelper(getActivity());
         List<GeoReport> geoReportList = dbh.getAllGeoReports();
 
@@ -75,7 +72,7 @@ public class MenuFragment extends Fragment implements View.OnClickListener, Sens
             geofencer.createGeofence(report.getID(), report.getLatitude(), report.getLongitude());
             Log.d(TAG, "Created geofence with id " + report.getID() + " latitude " + report.getLatitude() + " longitude " + report.getLongitude());
         }
-    }
+    }*/
 
     @Override
     public String toString() {
@@ -99,8 +96,6 @@ public class MenuFragment extends Fragment implements View.OnClickListener, Sens
         encReportsButton = (Button) view.findViewById(R.id.encReportsBtn);
         encReportsButton.setOnClickListener(this);
         encReportsButton.setBackgroundResource(R.color.colorDefaultButton);
-
-
 
         return view;
     }
