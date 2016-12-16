@@ -8,11 +8,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.Result;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.Geofence;
@@ -25,14 +23,14 @@ import java.util.List;
 
 import Database.DatabaseHelper;
 import Models.GeoReport;
-import Services.GeofenceService;
+import grpd.sm1sem.prototype.GeofenceService;
 
 /**
  * Created by Dan on 15-11-2016.
  */
 
 public class Geofencer implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, ResultCallback<Status> {
-    private final int GEOFENCE_RADIUS_IN_METERS = 30;
+    private final int GEOFENCE_RADIUS_IN_METERS = 20;
     private static final String TAG = "Geofencer";
     private GoogleApiClient googleApiClient = null;
     private LocationRequest locationRequest;
@@ -130,6 +128,7 @@ public class Geofencer implements GoogleApiClient.ConnectionCallbacks, GoogleApi
                 LocationServices.GeofencingApi.addGeofences(googleApiClient, geofenceRequest, pendingIntent)
                         .setResultCallback(this);
                 Log.d(TAG, "Geofence succesfully created");
+
             }
         } catch (SecurityException e) {
             Log.d(TAG, "SecurityException - " + e.getMessage());
