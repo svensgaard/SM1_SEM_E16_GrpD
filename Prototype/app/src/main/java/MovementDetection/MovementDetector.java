@@ -96,11 +96,6 @@ public class MovementDetector implements SensorEventListener{
             public void onFinish() {
                 Log.d(TAG, "User is idle - Shutting off geofence monitoring");
                 geofencer.stopLocationMonitoring();
-                CharSequence text = "User stationary";
-                int duration = Toast.LENGTH_SHORT;
-
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
             }
         };
         cTimer.start();

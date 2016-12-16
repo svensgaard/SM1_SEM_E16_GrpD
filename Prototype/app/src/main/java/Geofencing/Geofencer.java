@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -85,7 +86,7 @@ public class Geofencer implements GoogleApiClient.ConnectionCallbacks, GoogleApi
                         .setInterval(5000)
                         .setFastestInterval(2500)
                                 //.setNumUpdates(5)
-                        .setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+                        .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
                 LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, locationListener);
                 isMonitoring = true;
             } catch (SecurityException e) {
@@ -113,7 +114,7 @@ public class Geofencer implements GoogleApiClient.ConnectionCallbacks, GoogleApi
                             GEOFENCE_RADIUS_IN_METERS
                     )
                     .setExpirationDuration(Geofence.NEVER_EXPIRE)
-                    .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT)
+                    .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER)
                     .build();
 
             GeofencingRequest geofenceRequest = new GeofencingRequest.Builder()

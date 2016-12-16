@@ -50,9 +50,6 @@ public class GeofenceService extends IntentService {
                 toast.show();
 
                 NotifyUser(requestId);
-
-            } else if (transition == Geofence.GEOFENCE_TRANSITION_EXIT){
-                Log.d(TAG, "Exiting Geofence - " + requestId);
             }
         }
     }
