@@ -98,7 +98,7 @@ public class CreateReportFragment extends Fragment {
                     location = locationTracker.getLocation();
                     locationTracker.stop();
                     ReportWrapper rw;
-                    
+
                     rw = new ReportWrapper(0, topic.getText().toString(), "", desc.getText().toString(), location.getLatitude(), location.getLongitude(), "", "", "", "", bitImage, 0);
 
 
