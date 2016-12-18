@@ -1,4 +1,4 @@
-package Services;
+package grpd.sm1sem.prototype;
 
 import android.app.IntentService;
 import android.app.NotificationManager;
@@ -36,22 +36,28 @@ public class GeofenceService extends IntentService {
         } else {
             int transition = geofencingEvent.getGeofenceTransition();
             List<Geofence> geofences = geofencingEvent.getTriggeringGeofences();
-            Geofence geofence = geofences.get(0);
-            String requestId = geofence.getRequestId();
+            if(geofences != null) {
+                Geofence geofence = geofences.get(0);
+                String requestId = geofence.getRequestId();
 
-            if (transition == Geofence.GEOFENCE_TRANSITION_ENTER){
-                //LOGIC FOR WHEN USER ENTERS GEOFENCE HERE
-                Log.d(TAG, "Entering Geofence - " + requestId);
+                if (transition == Geofence.GEOFENCE_TRANSITION_ENTER){
+                    //LOGIC FOR WHEN USER ENTERS GEOFENCE HERE
+                    Log.d(TAG, "Entering Geofence - " + requestId);
 
-                CharSequence text = "Geofence entered";
-                int duration = Toast.LENGTH_SHORT;
+                    CharSequence text = "Geofence entered";
+                    int duration = Toast.LENGTH_SHORT;
 
-                Toast toast = Toast.makeText(getApplicationContext(), text, duration);
-                toast.show();
+                    Toast toast = Toast.makeText(getApplicationContext(), text, duration);
+                    toast.show();
 
-                NotifyUser(requestId);
+                    NotifyUser(requestId);
+
+                }
             }
         }
+        //Start service again
+        Intent newintent = new Intent(getApplicationContext(), GeofenceService.class);
+        getApplicationContext().startService(newintent);
     }
 
     private void NotifyUser(String requestId) {

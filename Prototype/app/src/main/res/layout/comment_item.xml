@@ -43,7 +43,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="15dp"
-            android:backgroundTint="@color/colorDefaultButton"
+
             />
 
         <!--<TextView
@@ -66,7 +66,7 @@
             android:layout_marginLeft="65dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="15dp"
-            android:backgroundTint="@color/colorDefaultButton"
+
             />
 
         <Button
@@ -78,7 +78,7 @@
             android:layout_marginRight="5dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="15dp"
-            android:backgroundTint="@color/colorDefaultButton"
+
             />
     </RelativeLayout>
 

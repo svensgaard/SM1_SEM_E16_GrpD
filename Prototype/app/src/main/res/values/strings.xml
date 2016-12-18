@@ -6,4 +6,9 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_encountered_reports">EncounteredReportsActivity</string>
+    <string name="geofence_transition_entered">entered</string>
+    <string name="geofence_transition_notification_text">enteredede</string>
+    <string name="geofence_transition_exited">exited</string>
+    <string name="unknown_geofence_transition">uknown</string>
+    <string name="geofence_transition_invalid_type">invalid type</string>
 </resources>

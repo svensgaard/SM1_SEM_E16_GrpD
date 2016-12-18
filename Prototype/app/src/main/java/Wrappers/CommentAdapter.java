@@ -18,6 +18,7 @@ import Database.DatabaseHelper;
 import grpd.sm1sem.prototype.R;
 
 import static android.R.attr.button;
+import static android.R.attr.commitIcon;
 
 
 /**
@@ -60,7 +61,6 @@ public class CommentAdapter extends ArrayAdapter<CommentWrapper> {
         } else {
             holder = (CommentHolder) rowView.getTag();
         }
-
         holder.commentTextView.setText(commentWrapper.getText());
         holder.scoreButtonItem.setText("" + commentWrapper.getPoints());
         if(commentWrapper.getImage() != null) {
@@ -78,16 +78,16 @@ public class CommentAdapter extends ArrayAdapter<CommentWrapper> {
             @Override
             public void onClick(View v) {
                 DatabaseHelper dbHelper = new DatabaseHelper(context);
-                commentWrapper.setPoints(dbHelper.upvoteComment(commentWrapper.getId(), commentWrapper.getPoints()));
-                Log.d(this.toString(), "Upvoted" + String.valueOf(commentWrapper.getPoints()));
                 if (!isDownvoted) {
                     if (!isUpvoted) {
                         commentWrapper.setPoints(dbHelper.upvoteComment(commentWrapper.getId(), commentWrapper.getPoints()));
                         Log.d(this.toString(), "Upvoted" + String.valueOf(commentWrapper.getPoints()));
                         upvoteButton.setBackgroundResource(R.color.colorUpvoteSelected);
+                        scoreButtonItem.setText("" + commentWrapper.getPoints());
                         isUpvoted = true;
                     } else if (isUpvoted) {
                         commentWrapper.setPoints(dbHelper.downvoteComment(commentWrapper.getId(), commentWrapper.getPoints()));
+                        scoreButtonItem.setText("" + commentWrapper.getPoints());
                         upvoteButton.setBackgroundResource(R.color.colorDefaultButton);
                         isUpvoted = false;
                     }
@@ -105,9 +105,11 @@ public class CommentAdapter extends ArrayAdapter<CommentWrapper> {
                         commentWrapper.setPoints(dbHelper.downvoteComment(commentWrapper.getId(), commentWrapper.getPoints()));
                         Log.d(this.toString(), "Downvoted" + String.valueOf(commentWrapper.getPoints()));
                         downvoteButton.setBackgroundResource(R.color.colorDownvoteSelected);
+                        scoreButtonItem.setText("" + commentWrapper.getPoints());
                         isDownvoted = true;
                     } else if (isDownvoted) {
                         commentWrapper.setPoints(dbHelper.upvoteComment(commentWrapper.getId(), commentWrapper.getPoints()));
+                        scoreButtonItem.setText("" + commentWrapper.getPoints());
                         downvoteButton.setBackgroundResource(R.color.colorDefaultButton);
                         isDownvoted = false;
                     }
