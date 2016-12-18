@@ -143,10 +143,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     cursor.getString(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_NEAR_ADDRESS)),
                     cursor.getString(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_USERTYPE)),
                     ImageUtils.getByteArrayAsBitmap(cursor.getBlob(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_IMAGE))),
-                    cursor.getInt(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_POINTS))),
+                    cursor.getInt(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_POINTS)),
                     cursor.getInt(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_UPVOTED)),
-                    cursor.getInt(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_DOWNVOTED));
-            )
+                    cursor.getInt(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_DOWNVOTED))
+            );
         }
         if(report != null) {
             return report;
