@@ -28,7 +28,9 @@ public final class Contract {
                     ReportEntry.COLUMN_NAME_OPRINDELSE + TEXT_TYPE + COMMA_SEP +
                     ReportEntry.COLUMN_NAME_NEAR_ADDRESS + TEXT_TYPE + COMMA_SEP +
                     ReportEntry.COLUMN_NAME_USERTYPE + TEXT_TYPE + COMMA_SEP +
-                    ReportEntry.COLUMN_NAME_POINTS + INTEGER_TYPE +
+                    ReportEntry.COLUMN_NAME_POINTS + INTEGER_TYPE + COMMA_SEP +
+                    ReportEntry.COLUMN_NAME_UPVOTED + TEXT_TYPE + COMMA_SEP +
+                    ReportEntry.COLUMN_NAME_DOWNVOTED + TEXT_TYPE +
                     " ); "
             ;
     public static final String SQL_CREATE_COMMENT_TABLE =
@@ -56,7 +58,8 @@ public final class Contract {
         public static final String COLUMN_NAME_NEAR_ADDRESS = "near_address";
         public static final String COLUMN_NAME_USERTYPE = "usertype";
         public static final String COLUMN_NAME_POINTS = "points";
-
+        public static final String COLUMN_NAME_UPVOTED = "upvoted";
+        public static final String COLUMN_NAME_DOWNVOTED = "downvoted";
     }
     public static class CommentEntry implements BaseColumns{
         public static final String TABLE_NAME = "comment";

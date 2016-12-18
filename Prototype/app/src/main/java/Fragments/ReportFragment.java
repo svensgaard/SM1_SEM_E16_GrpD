@@ -79,9 +79,14 @@ public class ReportFragment extends Fragment {
         commentBtn.setBackgroundResource(R.color.colorDefaultButton);
         final Button scoreBtn = (Button) mainView.findViewById(R.id.scoreButton);
 
-        if(report.getPoints() > 0) {
+        //if(report.getPoints() > 0) {
+          //  upvoteBtn.setBackgroundResource(R.color.colorUpvoteSelected);
+        //}
+        //if (report.g)
             upvoteBtn.setBackgroundResource(R.color.colorUpvoteSelected);
-        }
+
+        //if (report.isDownvoted())
+            downvoteBtn.setBackgroundResource(R.color.colorDownvoteSelected);
 
         //Fill views
         emneTextView.setText(report.getEmne());
@@ -97,21 +102,44 @@ public class ReportFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 DatabaseHelper dbHelper = new DatabaseHelper(getActivity());
-                report.setPoints(dbHelper.upvoteReport(report.getId(), report.getPoints()));
+/*
+                if (report.isDownvoted())
+                    return;
 
-                ((EncounteredReportsActivity) getActivity()).notiifyChange();
-                Log.d(this.toString(), "Upvoted!");
+                if (report.isUpvoted()) {
+                    report.setUpvoted(false);
+                    report.setPoints(dbHelper.downvoteReport(report.getId(), report.getPoints()));
+                    //upvoteBtn.setBackgroundResource(R.color.colorDefaultButton);
+                    return;
+                }
+
+                if (!report.isUpvoted()) {
+                    report.setPoints(dbHelper.upvoteReport(report.getId(), report.getPoints()));
+                    ((EncounteredReportsActivity) getActivity()).notiifyChange();
+                    Log.d(this.toString(), "Upvoted!");
+                    report.setUpvoted(true);
+                    //upvoteBtn.setBackgroundResource(R.color.colorUpvoteSelected);
+                }*/
+
             }
         });
         downvoteBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                DatabaseHelper dbHelper = new DatabaseHelper(getActivity());
-                report.setPoints(dbHelper.downvoteReport(report.getId(), report.getPoints()));
+                /*DatabaseHelper dbHelper = new DatabaseHelper(getActivity());
+                if (!isDownvoted && !isUpvoted) {
+                    report.setPoints(dbHelper.downvoteReport(report.getId(), report.getPoints()));
+                    ((EncounteredReportsActivity) getActivity()).notiifyChange();
+                    Log.d(this.toString(), "Downvoted!");
+                    isDownvoted = true;
+                    upvoteBtn.setBackgroundResource(R.color.colorDownvoteSelected);
+                } else {
+                    isDownvoted = false;
+                    report.setPoints(dbHelper.upvoteReport(report.getId(), report.getPoints()));
+                    upvoteBtn.setBackgroundResource(R.color.colorDefaultButton);
+                }*/
 
-                ((EncounteredReportsActivity) getActivity()).notiifyChange();
-                Log.d(this.toString(), "Downvoted!");
             }
         });
         commentBtn.setOnClickListener(new View.OnClickListener() {

@@ -54,6 +54,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(Contract.ReportEntry.COLUMN_NAME_NEAR_ADDRESS, reportWrapper.getNear_address());
         values.put(Contract.ReportEntry.COLUMN_NAME_USERTYPE, reportWrapper.getUsertype());
         values.put(Contract.ReportEntry.COLUMN_NAME_POINTS, reportWrapper.getPoints());
+        values.put(Contract.ReportEntry.COLUMN_NAME_UPVOTED, reportWrapper.getIsUpvoted());
+        values.put(Contract.ReportEntry.COLUMN_NAME_DOWNVOTED, reportWrapper.getIsDownvoted());
         long id = db.insert(Contract.ReportEntry.TABLE_NAME, null, values);
         return id;
     }
@@ -141,8 +143,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     cursor.getString(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_NEAR_ADDRESS)),
                     cursor.getString(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_USERTYPE)),
                     ImageUtils.getByteArrayAsBitmap(cursor.getBlob(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_IMAGE))),
-                    cursor.getInt(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_POINTS)));
-
+                    cursor.getInt(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_POINTS))),
+                    cursor.getInt(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_UPVOTED)),
+                    cursor.getInt(cursor.getColumnIndex(Contract.ReportEntry.COLUMN_NAME_DOWNVOTED));
+            )
         }
         if(report != null) {
             return report;

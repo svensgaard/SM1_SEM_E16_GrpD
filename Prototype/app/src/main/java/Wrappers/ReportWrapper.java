@@ -19,9 +19,11 @@ public class ReportWrapper {
     private String near_address;
     private String usertype;
     private Integer points;
+    private int isUpvoted;
+    private int isDownvoted;
 
     /*Constructor wihtout image*/
-    public ReportWrapper(int id, String emne, String element, String description, Double longitude, Double latitude, String timestamp, String oprindelse, String near_address, String usertype, int points) {
+    public ReportWrapper(int id, String emne, String element, String description, Double longitude, Double latitude, String timestamp, String oprindelse, String near_address, String usertype, int points, int isUpvoted, int isDownvoted) {
         this.id = id;
         this.emne = emne;
         this.element = element;
@@ -33,9 +35,11 @@ public class ReportWrapper {
         this.near_address = near_address;
         this.usertype = usertype;
         this.points = points;
+        this.isUpvoted = isUpvoted;
+        this.isDownvoted = isDownvoted;
     }
     /*Constructor with image */
-    public ReportWrapper(int id, String emne, String element, String description, Double longitude, Double latitude, String timestamp, String oprindelse, String near_address, String usertype, Bitmap image, int points) {
+    public ReportWrapper(int id, String emne, String element, String description, Double longitude, Double latitude, String timestamp, String oprindelse, String near_address, String usertype, Bitmap image, int points, int isUpvoted, int isDownvoted) {
         this.id = id;
         this.emne = emne;
         this.element = element;
@@ -48,6 +52,8 @@ public class ReportWrapper {
         this.near_address = near_address;
         this.usertype = usertype;
         this.points = points;
+        this.isUpvoted = isUpvoted;
+        this.isDownvoted = isDownvoted;
     }
 
     public int getId() {
@@ -146,7 +152,23 @@ public class ReportWrapper {
         this.points = points;
     }
 
+    public int getIsUpvoted() {
+        return isUpvoted;
+    }
+
+    public void setIsUpvoted(int isUpvoted) {
+        this.isUpvoted = isUpvoted;
+    }
+
+    public int getIsDownvoted() {
+        return isDownvoted;
+    }
+
+    public void setIsDownvoted(int isDownvoted) {
+        this.isDownvoted = isDownvoted;
+    }
+
     public static ReportWrapper getDummyReport() {
-        return new ReportWrapper(1, "Emne", "Element", "Description", new Double(34), new Double(45), "2010-05-28T15:36:56.200", "Oprindelse", "Campusvej 55 5230 Odense M", "Bruger", 10);
+        return new ReportWrapper(1, "Emne", "Element", "Description", new Double(34), new Double(45), "2010-05-28T15:36:56.200", "Oprindelse", "Campusvej 55 5230 Odense M", "Bruger", 10, 0, 0);
     }
 }
