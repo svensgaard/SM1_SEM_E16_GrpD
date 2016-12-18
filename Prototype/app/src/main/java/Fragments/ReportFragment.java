@@ -79,13 +79,10 @@ public class ReportFragment extends Fragment {
         commentBtn.setBackgroundResource(R.color.colorDefaultButton);
         final Button scoreBtn = (Button) mainView.findViewById(R.id.scoreButton);
 
-        //if(report.getPoints() > 0) {
-          //  upvoteBtn.setBackgroundResource(R.color.colorUpvoteSelected);
-        //}
-        //if (report.g)
+        if (report.getIsUpvoted() == 1)
             upvoteBtn.setBackgroundResource(R.color.colorUpvoteSelected);
 
-        //if (report.isDownvoted())
+        if (report.getIsDownvoted() == 1)
             downvoteBtn.setBackgroundResource(R.color.colorDownvoteSelected);
 
         //Fill views
@@ -102,24 +99,22 @@ public class ReportFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 DatabaseHelper dbHelper = new DatabaseHelper(getActivity());
-/*
-                if (report.isDownvoted())
+                if (report.getIsDownvoted() == 1)
                     return;
 
-                if (report.isUpvoted()) {
-                    report.setUpvoted(false);
+                if (report.getIsUpvoted() == 1){
+                    report.setIsUpvoted(0);
                     report.setPoints(dbHelper.downvoteReport(report.getId(), report.getPoints()));
-                    //upvoteBtn.setBackgroundResource(R.color.colorDefaultButton);
                     return;
                 }
 
-                if (!report.isUpvoted()) {
+                if (report.getIsUpvoted() == 0){
                     report.setPoints(dbHelper.upvoteReport(report.getId(), report.getPoints()));
+                    upvoteBtn.setBackgroundResource(R.color.colorUpvoteSelected);
                     ((EncounteredReportsActivity) getActivity()).notiifyChange();
                     Log.d(this.toString(), "Upvoted!");
-                    report.setUpvoted(true);
-                    //upvoteBtn.setBackgroundResource(R.color.colorUpvoteSelected);
-                }*/
+                }
+                Log.d("Fuck", "Upvote status: " + report.getIsUpvoted());
 
             }
         });

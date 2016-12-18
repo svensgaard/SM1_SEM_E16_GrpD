@@ -11,8 +11,6 @@ import android.support.v7.app.AppCompatActivity;
 
 import Fragments.FragmentChangeListener;
 import Fragments.MenuFragment;
-import MovementDetection.MovementDetector;
-import Services.GeofenceService;
 
 public class MainActivity extends AppCompatActivity implements FragmentChangeListener {
 

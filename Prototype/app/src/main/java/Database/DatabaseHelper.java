@@ -170,6 +170,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         int newPoints = oldpoints - 1;
         ContentValues values = new ContentValues();
         values.put(Contract.ReportEntry.COLUMN_NAME_POINTS, String.valueOf(newPoints));
+        values.put(Contract.ReportEntry.COLUMN_NAME_UPVOTED, 0);
+        values.put(Contract.ReportEntry.COLUMN_NAME_DOWNVOTED, 1);
         String where = Contract.ReportEntry._ID + "=?";
         String[] value = {String.valueOf(id)};
         SQLiteDatabase db = this.getWritableDatabase();
@@ -181,6 +183,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         int newPoints = oldpoints + 1;
         ContentValues values = new ContentValues();
         values.put(Contract.CommentEntry.COLUMN_NAME_POINTS, String.valueOf(newPoints));
+        values.put(Contract.ReportEntry.COLUMN_NAME_DOWNVOTED, 0);
+        values.put(Contract.ReportEntry.COLUMN_NAME_UPVOTED, 1);
         String where = Contract.CommentEntry._ID + "=?";
         String[] value = {String.valueOf(id)};
         SQLiteDatabase db = this.getWritableDatabase();
