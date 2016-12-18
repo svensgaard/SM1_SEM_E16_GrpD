@@ -73,7 +73,7 @@ public class ReportFragment extends Fragment {
         ImageView imageView = (ImageView) mainView.findViewById(R.id.imageView);
         final Button upvoteBtn = (Button) mainView.findViewById(R.id.upvoteButton);
         upvoteBtn.setBackgroundResource(R.color.colorDefaultButton);
-        Button downvoteBtn = (Button) mainView.findViewById(R.id.downvoteButton);
+        final Button downvoteBtn = (Button) mainView.findViewById(R.id.downvoteButton);
         downvoteBtn.setBackgroundResource(R.color.colorDefaultButton);
         Button commentBtn = (Button) mainView.findViewById(R.id.addCommentButton);
         commentBtn.setBackgroundResource(R.color.colorDefaultButton);
@@ -99,8 +99,6 @@ public class ReportFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 DatabaseHelper dbHelper = new DatabaseHelper(getActivity());
-                if (report.getIsDownvoted() == 1)
-                    return;
 
                 if (report.getIsUpvoted() == 1){
                     report.setIsUpvoted(0);
@@ -114,7 +112,6 @@ public class ReportFragment extends Fragment {
                     ((EncounteredReportsActivity) getActivity()).notiifyChange();
                     Log.d(this.toString(), "Upvoted!");
                 }
-                Log.d("Fuck", "Upvote status: " + report.getIsUpvoted());
 
             }
         });
@@ -122,18 +119,20 @@ public class ReportFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                /*DatabaseHelper dbHelper = new DatabaseHelper(getActivity());
-                if (!isDownvoted && !isUpvoted) {
-                    report.setPoints(dbHelper.downvoteReport(report.getId(), report.getPoints()));
-                    ((EncounteredReportsActivity) getActivity()).notiifyChange();
-                    Log.d(this.toString(), "Downvoted!");
-                    isDownvoted = true;
-                    upvoteBtn.setBackgroundResource(R.color.colorDownvoteSelected);
-                } else {
-                    isDownvoted = false;
+                DatabaseHelper dbHelper = new DatabaseHelper(getActivity());
+
+                if (report.getIsDownvoted() == 1){
+                    report.setIsDownvoted(0);
                     report.setPoints(dbHelper.upvoteReport(report.getId(), report.getPoints()));
-                    upvoteBtn.setBackgroundResource(R.color.colorDefaultButton);
-                }*/
+                    return;
+                }
+
+                if (report.getIsDownvoted() == 0){
+                    report.setPoints(dbHelper.downvoteReport(report.getId(), report.getPoints()));
+                    downvoteBtn.setBackgroundResource(R.color.colorUpvoteSelected);
+                    ((EncounteredReportsActivity) getActivity()).notiifyChange();
+                    Log.d(this.toString(), "Upvoted!");
+                }
 
             }
         });

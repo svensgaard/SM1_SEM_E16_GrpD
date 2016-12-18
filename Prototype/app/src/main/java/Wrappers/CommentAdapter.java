@@ -78,7 +78,7 @@ public class CommentAdapter extends ArrayAdapter<CommentWrapper> {
             @Override
             public void onClick(View v) {
                 DatabaseHelper dbHelper = new DatabaseHelper(context);
-                if (!isDownvoted) {
+
                     if (!isUpvoted) {
                         commentWrapper.setPoints(dbHelper.upvoteComment(commentWrapper.getId(), commentWrapper.getPoints()));
                         Log.d(this.toString(), "Upvoted" + String.valueOf(commentWrapper.getPoints()));
@@ -91,7 +91,7 @@ public class CommentAdapter extends ArrayAdapter<CommentWrapper> {
                         upvoteButton.setBackgroundResource(R.color.colorDefaultButton);
                         isUpvoted = false;
                     }
-                }
+
             }
         });
         holder.downvoteButton.setOnClickListener(new View.OnClickListener() {
