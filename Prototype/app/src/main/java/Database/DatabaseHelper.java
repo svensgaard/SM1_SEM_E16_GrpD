@@ -56,8 +56,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(Contract.ReportEntry.COLUMN_NAME_POINTS, reportWrapper.getPoints());
         values.put(Contract.ReportEntry.COLUMN_NAME_UPVOTED, reportWrapper.getIsUpvoted());
         values.put(Contract.ReportEntry.COLUMN_NAME_DOWNVOTED, reportWrapper.getIsDownvoted());
-        long id = db.insert(Contract.ReportEntry.TABLE_NAME, null, values);
-        return id;
+        return db.insert(Contract.ReportEntry.TABLE_NAME, null, values);
     }
 
     public List<GeoReport> getAllGeoReports() {
@@ -84,7 +83,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         Log.d("getAllBooks()", geoReportList.toString());
-
+        cursor.close();
         return geoReportList;
     }
 
@@ -93,14 +92,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(Contract.CommentEntry.COLUMN_NAME_TEXT, commentWrapper.getText());
         values.put(Contract.CommentEntry.COLUMN_NAME_POINTS, commentWrapper.getPoints());
 
-        ByteArrayOutputStream os = new ByteArrayOutputStream();
-
         if(commentWrapper.getImage() != null) {
             values.put(Contract.CommentEntry.COLUMN_NAME_IMAGE, codec(commentWrapper.getImage(), Bitmap.CompressFormat.JPEG, 30));
         }
         values.put(Contract.CommentEntry.COLUMN_NAME_REPORT_FK, commentWrapper.getReport_fk());
-        long id = db.insert(Contract.CommentEntry.TABLE_NAME, null, values);
-        return id;
+        return db.insert(Contract.CommentEntry.TABLE_NAME, null, values);
     }
 
     private static byte[] codec(Bitmap src, Bitmap.CompressFormat format, int quality) {
@@ -121,6 +117,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 result.add(cursor.getInt(cursor.getColumnIndex(Contract.ReportEntry._ID)));
             } while (cursor.moveToNext());
         }
+        cursor.close();
         return result;
     }
 
@@ -149,8 +146,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             );
         }
         if(report != null) {
+            cursor.close();
             return report;
         } else {
+            cursor.close();
             return ReportWrapper.getDummyReport();
         }
     }
@@ -220,7 +219,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 }
                 int points = cursor.getInt(cursor.getColumnIndex(Contract.CommentEntry.COLUMN_NAME_POINTS));
 
-                CommentWrapper comment = null;
+                CommentWrapper comment;
                 if(image != null) {
                     comment = new CommentWrapper(id, text, image, points, reportID);
                 } else {
@@ -240,7 +239,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         CommentWrapper comment = null;
 
         if(cursor.moveToFirst()) {
-                int id = commentId;
                 String text = cursor.getString(cursor.getColumnIndex(Contract.CommentEntry.COLUMN_NAME_TEXT));
                 Bitmap image = null;
                 if(!cursor.isNull(cursor.getColumnIndex(Contract.CommentEntry.COLUMN_NAME_IMAGE))) {
@@ -249,12 +247,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 int points = cursor.getInt(cursor.getColumnIndex(Contract.CommentEntry.COLUMN_NAME_POINTS));
                 int reportID = cursor.getInt(cursor.getColumnIndex(Contract.CommentEntry.COLUMN_NAME_REPORT_FK));;
                 if(image != null) {
-                    comment = new CommentWrapper(id, text, image, points, reportID);
+                    comment = new CommentWrapper(commentId, text, image, points, reportID);
                 } else {
-                    comment = new CommentWrapper(id, text, points, reportID);
+                    comment = new CommentWrapper(commentId, text, points, reportID);
                 }
 
         }
+        cursor.close();
         return comment;
     }
     /* This method will update the database */
@@ -267,9 +266,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if(oldVersion < 2) {
             //Update 1 to database IE add a new column or table
             //Continue oldVersion < 3 when updating the database
-        }
-        if(oldVersion < 3) {
-
         }
     }
 }

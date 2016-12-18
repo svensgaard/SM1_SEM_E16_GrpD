@@ -40,7 +40,6 @@ public class CreateReportFragment extends Fragment {
     private static final int SELECT_PHOTO = 100;
     private ImageView imageView;
     private View view;
-    private final static String TAG = "CreateReportFragment";
     private LocationTracker locationTracker;
     private Location location;
 

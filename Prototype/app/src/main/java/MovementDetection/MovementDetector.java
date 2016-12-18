@@ -69,12 +69,6 @@ public class MovementDetector implements SensorEventListener{
                     Log.d(TAG, "User is moving!");
                     geofencer.startLocationMonitoring();
 
-                    CharSequence text = "Movement detected";
-                    int duration = Toast.LENGTH_SHORT;
-
-                    Toast toast = Toast.makeText(context, text, duration);
-                    toast.show();
-
                     if (cTimer != null)
                         cTimer.cancel();
                     startTimer();
